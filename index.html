@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
   <head>
@@ -7,7 +8,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- HIGH-END MULTI-SCRIPT TYPOGRAPHY IMPORTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+
     <script>
       tailwind.config = {
         darkMode: 'class',
@@ -25,26 +29,15 @@
                 300: '#c4b5fd',
                 400: '#a78bfa',
                 500: '#8b5cf6',
-                600: '#7c3aed', // Premium Violet
+                600: '#7c3aed', 
                 700: '#6d28d9',
                 800: '#5b21b6',
                 900: '#4c1d95',
               },
               deep: {
-                950: '#030712', // Midnight
+                950: '#030712', 
                 900: '#0f172a',
                 800: '#1e293b'
-              }
-            },
-            animation: {
-              'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'float': 'float 5s ease-in-out infinite',
-              'bounce-slow': 'bounce 3s infinite',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-15px)' },
               }
             }
           }
@@ -55,22 +48,45 @@
       body {
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
+        top: 0 !important;
       }
       .glass {
         background: rgba(255, 255, 255, 0.03);
         backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.08);
       }
-      .dark .glass {
-        background: rgba(15, 23, 42, 0.3);
-      }
-      .premium-shadow {
-        box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.15);
-      }
       #root { min-height: 100vh; }
-      @media (max-width: 768px) {
-        body { padding-bottom: 90px; }
+
+      /* === DYNAMIC TYPOGRAPHY ENGINE === */
+      /* Bengali */
+      html[lang="bn"] body, html[lang="bn"] * { font-family: 'Noto Sans Bengali', sans-serif !important; }
+      /* Arabic & Urdu */
+      html[lang="ar"] body, html[lang="ar"] *, html[lang="ur"] body, html[lang="ur"] * { font-family: 'Noto Naskh Arabic', serif !important; }
+      /* Hindi (Devanagari) */
+      html[lang="hi"] body, html[lang="hi"] * { font-family: 'Noto Sans Devanagari', sans-serif !important; }
+      /* Japanese */
+      html[lang="ja"] body, html[lang="ja"] * { font-family: 'Noto Sans JP', sans-serif !important; }
+      /* Korean */
+      html[lang="ko"] body, html[lang="ko"] * { font-family: 'Noto Sans KR', sans-serif !important; }
+      /* Chinese Simplified */
+      html[lang="zh-CN"] body, html[lang="zh-CN"] * { font-family: 'Noto Sans SC', sans-serif !important; }
+
+      /* === GOOGLE TRANSLATE RESET (CRITICAL) === */
+      .goog-te-banner-frame.skiptranslate,
+      #goog-gt-tt,
+      .goog-te-balloon-frame,
+      .goog-te-gadget-icon,
+      .goog-te-gadget-simple img,
+      .goog-te-menu-value span:nth-child(2),
+      .goog-te-menu-value span:nth-child(3),
+      .goog-te-gadget span {
+        display: none !important;
       }
+      .goog-te-gadget { font-size: 0 !important; color: transparent !important; }
+      .goog-text-highlight { background-color: transparent !important; box-shadow: none !important; }
+      #google_translate_element { display: none !important; }
+      body { top: 0 !important; }
+      .skiptranslate { display: none !important; }
     </style>
     <script type="importmap">
     {
@@ -83,8 +99,18 @@
       }
     }
     </script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          autoDisplay: false
+        }, 'google_translate_element');
+      }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   </head>
   <body class="bg-white dark:bg-deep-950 text-slate-900 dark:text-slate-100 transition-colors duration-500">
+    <div id="google_translate_element"></div>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
   </body>
