@@ -27,6 +27,25 @@ export const USER_INFO = {
   supportingLine: "I help startups and businesses build fast, modern, conversion-focused websites that scale effortlessly."
 };
 
+// Custom Translator Language List
+export const LANGUAGES = [
+  { code: 'en', label: 'English', native: 'English', flag: '🇺🇸' },
+  { code: 'bn', label: 'Bengali', native: 'বাংলা', flag: '🇧🇩' },
+  { code: 'hi', label: 'Hindi', native: 'हिन्दी', flag: '🇮🇳' },
+  { code: 'ur', label: 'Urdu', native: 'اردو', flag: '🇵🇰' },
+  { code: 'ar', label: 'Arabic', native: 'العربية', flag: '🇸🇦' },
+  { code: 'es', label: 'Spanish', native: 'Español', flag: '🇪🇸' },
+  { code: 'pt', label: 'Portuguese', native: 'Português', flag: '🇵🇹' },
+  { code: 'fr', label: 'French', native: 'Français', flag: '🇫🇷' },
+  { code: 'de', label: 'German', native: 'Deutsch', flag: '🇩🇪' },
+  { code: 'ru', label: 'Russian', native: 'Русский', flag: '🇷🇺' },
+  { code: 'zh-CN', label: 'Chinese', native: '简体中文', flag: '🇨🇳' },
+  { code: 'ja', label: 'Japanese', native: '日本語', flag: '🇯🇵' },
+  { code: 'ko', label: 'Korean', native: '한국어', flag: '🇰🇷' },
+  { code: 'mi', label: 'Maori', native: 'Te Reo Māori', flag: '🇳🇿' },
+  { code: 'tpi', label: 'Tok Pisin', native: 'Tok Pisin', flag: '🇵🇬' }
+];
+
 export const ABOUT_ME = `I am a multi-disciplinary developer and strategist who bridges the gap between high-performance engineering and human-centric design. With over 3 years of craftsmanship, I specialize in building scalable MERN stack ecosystems, intelligent automation tools, and professional creative assets. Whether it's architecting complex software automation scripts in Python or crafting high-impact UI/UX systems, my focus is always on delivering strategic value through technical precision.`;
 
 export const STRATEGIC_ABOUT = {

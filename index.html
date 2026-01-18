@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" data-theme="default">
+<html lang="en" class="scroll-smooth" data-language="en" data-mode="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- HIGH-END MULTI-SCRIPT TYPOGRAPHY IMPORTS -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- FONTS: English + Specialized Scripts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@300;400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Sans+Devanagari:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+KR:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
 
     <script>
       tailwind.config = {
@@ -18,27 +18,26 @@
         theme: {
           extend: {
             fontFamily: {
-              sans: ['Plus Jakarta Sans', 'sans-serif'],
-              serif: ['Bricolage Grotesque', 'serif'],
+              sans: ['var(--font-main)', 'sans-serif'],
+              serif: ['var(--font-main)', 'serif'],
             },
             colors: {
               brand: {
-                50: 'var(--brand-50)',
-                100: 'var(--brand-100)',
-                200: 'var(--brand-200)',
-                300: 'var(--brand-300)',
-                400: 'var(--brand-400)',
-                500: 'var(--brand-500)',
-                600: 'var(--brand-600)', 
-                700: 'var(--brand-700)',
-                800: 'var(--brand-800)',
-                900: 'var(--brand-900)',
+                DEFAULT: 'var(--accent)',
+                50: 'var(--accent-50)',
+                600: 'var(--accent)',
+                700: 'var(--accent-hover)',
               },
-              deep: {
-                950: '#030712', 
-                900: '#0f172a',
-                800: '#1e293b'
+              theme: {
+                bg: 'var(--bg-primary)',
+                card: 'var(--bg-secondary)',
+                text: 'var(--text-primary)',
+                dim: 'var(--text-secondary)',
+                border: 'var(--border-color)',
               }
+            },
+            borderRadius: {
+              'theme': '1rem',
             }
           }
         }
@@ -46,67 +45,76 @@
     </script>
     <style>
       :root {
-        /* Default Theme (Violet) */
-        --brand-50: #f5f3ff; --brand-100: #ede9fe; --brand-200: #ddd6fe;
-        --brand-300: #c4b5fd; --brand-400: #a78bfa; --brand-500: #8b5cf6;
-        --brand-600: #7c3aed; --brand-700: #6d28d9; --brand-800: #5b21b6; --brand-900: #4c1d95;
+        --accent: #7c3aed;
+        --accent-hover: #6d28d9;
+        --accent-50: #f5f3ff;
+        --font-main: 'Plus Jakarta Sans';
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
 
-      [data-theme='ocean'] {
-        --brand-50: #f0fdfa; --brand-100: #ccfbf1; --brand-200: #99f6e4;
-        --brand-300: #5eead4; --brand-400: #2dd4bf; --brand-500: #14b8a6;
-        --brand-600: #0d9488; --brand-700: #0f766e; --brand-800: #115e59; --brand-900: #134e4a;
+      /* TYPOGRAPHY MATRIX - Dynamic font swapping based on language */
+      html[data-applied-lang='bn'] { --font-main: 'Noto Sans Bengali'; }
+      html[data-applied-lang='ar'], html[data-applied-lang='ur'] { --font-main: 'Noto Naskh Arabic'; }
+      html[data-applied-lang='hi'] { --font-main: 'Noto Sans Devanagari'; }
+      html[data-applied-lang='ja'] { --font-main: 'Noto Sans JP'; }
+      html[data-applied-lang='ko'] { --font-main: 'Noto Sans KR'; }
+      html[data-applied-lang='zh-CN'] { --font-main: 'Noto Sans SC'; }
+
+      /* Color Modes */
+      [data-mode='light'] {
+        --bg-primary: #ffffff; 
+        --bg-secondary: #f8fafc;
+        --text-primary: #0f172a; 
+        --text-secondary: #64748b;
+        --border-color: #e2e8f0;
+      }
+      [data-mode='dark'] {
+        --bg-primary: #0a0a0a; 
+        --bg-secondary: #111111;
+        --text-primary: #f8fafc; 
+        --text-secondary: #94a3b8;
+        --border-color: #1e293b;
       }
 
-      [data-theme='sunset'] {
-        --brand-50: #fff7ed; --brand-100: #ffedd5; --brand-200: #fed7aa;
-        --brand-300: #fdba74; --brand-400: #fb923c; --brand-500: #f97316;
-        --brand-600: #ea580c; --brand-700: #c2410c; --brand-800: #9a3412; --brand-900: #7c2d12;
-      }
-
-      [data-theme='forest'] {
-        --brand-50: #f0fdf4; --brand-100: #dcfce7; --brand-200: #bbf7d0;
-        --brand-300: #86efac; --brand-400: #4ade80; --brand-500: #22c55e;
-        --brand-600: #16a34a; --brand-700: #15803d; --brand-800: #166534; --brand-900: #14532d;
-      }
-
-      [data-theme='cyber'] {
-        --brand-50: #fdf2f8; --brand-100: #fce7f3; --brand-200: #fbcfe8;
-        --brand-300: #f9a8d4; --brand-400: #f472b6; --brand-500: #ec4899;
-        --brand-600: #db2777; --brand-700: #be185d; --brand-800: #9d174d; --brand-900: #831843;
-      }
+      /* HIDE GOOGLE TRANSLATE UI ELEMENTS */
+      .goog-te-banner-frame.skiptranslate { display: none !important; }
+      body { top: 0px !important; }
+      #google_translate_element { display: none !important; }
+      .goog-te-gadget { display: none !important; }
+      .goog-tooltip { display: none !important; }
+      .goog-tooltip:hover { display: none !important; }
+      .goog-text-highlight { background-color: transparent !important; border: none !important; box-shadow: none !important; }
 
       body {
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-        top: 0 !important;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: var(--font-main), sans-serif;
       }
-      .glass {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
-      #root { min-height: 100vh; }
 
-      /* Dynamic Typography Logic... (kept original logic) */
-      html[lang="bn"] body, html[lang="bn"] * { font-family: 'Noto Sans Bengali', sans-serif !important; }
-      html[lang="ar"] body, html[lang="ar"] *, html[lang="ur"] body, html[lang="ur"] * { font-family: 'Noto Naskh Arabic', serif !important; }
-      html[lang="hi"] body, html[lang="hi"] * { font-family: 'Noto Sans Devanagari', sans-serif !important; }
-      html[lang="ja"] body, html[lang="ja"] * { font-family: 'Noto Sans JP', sans-serif !important; }
-      html[lang="ko"] body, html[lang="ko"] * { font-family: 'Noto Sans KR', sans-serif !important; }
-      html[lang="zh-CN"] body, html[lang="zh-CN"] * { font-family: 'Noto Sans SC', sans-serif !important; }
-
-      /* Google Translate Reset... (kept original logic) */
-      .goog-te-banner-frame.skiptranslate, #goog-gt-tt, .goog-te-balloon-frame, .goog-te-gadget-icon, .goog-te-gadget-simple img, .goog-te-gadget span { display: none !important; }
-      .goog-te-gadget { font-size: 0 !important; color: transparent !important; }
-      #google_translate_element { display: none !important; }
-      body { top: 0 !important; }
-      .skiptranslate { display: none !important; }
+      .section-container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+      svg { stroke: currentColor; fill: none; }
       
-      /* Hide scrollbar for the custom dropdown */
-      .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-      .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 10px; }
+      .brand-bg { background-color: var(--accent); }
+      .brand-text { color: var(--accent); }
+      .brand-border { border-color: var(--accent); }
+      
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: var(--bg-primary); }
+      ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
     </style>
+    
+    <!-- GOOGLE TRANSLATE CORE -->
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false
+        }, 'google_translate_element');
+      }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
     <script type="importmap">
     {
       "imports": {
@@ -114,18 +122,13 @@
         "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
         "react/": "https://esm.sh/react@^19.2.3/",
         "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-        "framer-motion": "https://esm.sh/framer-motion@^12.25.0"
+        "framer-motion": "https://esm.sh/framer-motion@^12.27.0"
       }
     }
     </script>
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element');
-      }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   </head>
-  <body class="bg-white dark:bg-deep-950 text-slate-900 dark:text-slate-100 transition-colors duration-500">
+  <body>
+    <!-- Hidden element required by Google Translate -->
     <div id="google_translate_element"></div>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>

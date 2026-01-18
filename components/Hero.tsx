@@ -1,158 +1,103 @@
 
-import React, { useState, useEffect } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { USER_INFO } from '../constants';
-import { ArrowRight, Calendar, MessageCircle, Dot } from 'lucide-react';
+import { ArrowRight, Calendar, MessageCircle } from 'lucide-react';
 
 export const Hero: React.FC = () => {
   const whatsappLink = `https://wa.me/8801778189644?text=Hello%20Al-amin!`;
-  const [greeting, setGreeting] = useState('');
-  
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-
-    const hour = new Date().getHours();
-    if (hour < 12) setGreeting('Good Morning');
-    else if (hour < 17) setGreeting('Good Afternoon');
-    else setGreeting('Good Evening');
-
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden px-6 lg:px-12">
-      <motion.div 
-        className="fixed inset-0 pointer-events-none z-0 opacity-40 dark:opacity-20 hidden md:block"
-        style={{
-          background: `radial-gradient(600px circle at ${springX}px ${springY}px, rgba(124, 58, 237, 0.15), transparent 80%)`
-        }}
-      />
+    <section id="hero" className="relative min-h-[90vh] flex items-center py-20 overflow-visible">
+      {/* Decorative background elements that stay behind content */}
+      <div className="absolute top-0 right-0 w-[40vw] h-[40vw] bg-brand/5 rounded-full blur-[120px] -z-10 animate-pulse"></div>
+      <div className="absolute bottom-0 left-0 w-[20vw] h-[20vw] bg-blue-500/5 rounded-full blur-[100px] -z-10"></div>
 
-      <div className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-brand-500/5 rounded-full blur-[120px] -z-10"></div>
-      <div className="absolute bottom-0 left-[-5%] w-[30vw] h-[30vw] bg-blue-500/5 rounded-full blur-[100px] -z-10"></div>
-
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full relative z-10">
         
-        <div className="lg:col-span-7 pr-4 lg:pr-12">
+        {/* Content Column */}
+        <div className="lg:col-span-7 order-2 lg:order-1">
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="inline-flex items-center space-x-3 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800 px-4 py-2 rounded-full mb-10 shadow-sm"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center space-x-2 bg-theme-card border border-theme-border px-4 py-2 rounded-full mb-8"
           >
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-               {greeting}, I'm ready for new challenges
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-theme-dim">
+               Available for new projects
             </span>
           </motion.div>
 
-          <div className="relative">
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-slate-950 dark:text-white leading-[1.1] mb-6 whitespace-nowrap"
-            >
-              {USER_INFO.firstName}{' '}
-              <span className="text-brand-600">{USER_INFO.lastName}.</span>
-            </motion.h1>
-          </div>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-serif font-black tracking-tight text-theme-text leading-[1.05] mb-8"
+          >
+            {USER_INFO.firstName}{' '}
+            <span className="text-brand">{USER_INFO.lastName}.</span>
+          </motion.h1>
 
-          <motion.div
+          <motion.p
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.8, delay: 0.15 }}
-             className="mb-8"
+             transition={{ delay: 0.2 }}
+             className="text-lg md:text-xl text-theme-dim font-medium max-w-xl leading-relaxed mb-10"
           >
-            <p className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium max-w-lg leading-snug mb-2">
-              {USER_INFO.tagline}
-            </p>
-            <p className="text-sm md:text-base text-slate-400 dark:text-slate-500 font-medium max-w-md italic">
-              {USER_INFO.supportingLine}
-            </p>
-          </motion.div>
+            {USER_INFO.tagline} {USER_INFO.supportingLine}
+          </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 mb-16"
+            transition={{ delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4"
           >
-            <motion.a 
-              whileHover={{ scale: 1.02, x: 5 }}
-              whileTap={{ scale: 0.98 }}
+            <a 
               href="#contact"
-              className="px-8 py-5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl flex items-center justify-center space-x-3 transition-all shadow-xl premium-shadow group"
+              className="px-8 py-4 bg-brand hover:bg-brand-700 text-white font-bold rounded-theme flex items-center justify-center space-x-3 transition-all shadow-lg shadow-brand/20 group"
             >
               <Calendar size={20} />
               <span>Strategy Session</span>
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </motion.a>
+            </a>
 
-            <motion.a 
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <a 
               href={whatsappLink}
               target="_blank"
-              rel="noopener"
-              className="px-8 py-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white font-bold rounded-2xl flex items-center justify-center space-x-3 transition-all hover:bg-slate-50 dark:hover:bg-slate-800 shadow-sm"
+              rel="noopener noreferrer"
+              className="px-8 py-4 bg-theme-card border border-theme-border text-theme-text font-bold rounded-theme flex items-center justify-center space-x-3 transition-all hover:bg-theme-bg"
             >
-              <MessageCircle size={20} className="text-brand-500" />
+              <MessageCircle size={20} className="text-brand" />
               <span>Quick Chat</span>
-            </motion.a>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="flex items-center space-x-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400"
-          >
-             <div className="flex items-center group cursor-help">
-                <Dot className="text-brand-600 scale-150 animate-pulse" />
-                <span className="group-hover:text-brand-600 transition-colors">Avg. 2H Response</span>
-             </div>
-             <div className="flex items-center group cursor-help">
-                <Dot className="text-brand-600 scale-150 animate-pulse" />
-                <span className="group-hover:text-brand-600 transition-colors">Global Standards</span>
-             </div>
+            </a>
           </motion.div>
         </div>
 
-        <div className="lg:col-span-5 relative flex justify-center lg:justify-end">
+        {/* Image Column */}
+        <div className="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end relative z-0">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-[420px] lg:max-w-[480px] group"
+            transition={{ duration: 0.8 }}
+            className="relative w-full max-w-[400px] aspect-[4/5]"
           >
-            <div className="absolute -inset-4 bg-slate-100 dark:bg-slate-900 rounded-[3.5rem] -z-10 group-hover:scale-105 transition-transform duration-700"></div>
+            {/* Stable Frame */}
+            <div className="absolute -inset-4 bg-theme-card rounded-theme border border-theme-border -z-10"></div>
             
-            <div className="relative overflow-hidden rounded-[3rem] shadow-2xl border border-white/10 aspect-[3/4]">
+            <div className="w-full h-full overflow-hidden rounded-theme shadow-2xl border border-theme-border">
               <img 
                 src={USER_INFO.image} 
                 alt={USER_INFO.name} 
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out scale-110 group-hover:scale-100"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-105 hover:scale-100"
               />
               
-              <motion.div 
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute bottom-6 -right-6 md:-right-8 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-800 z-20 text-center"
-              >
-                <p className="text-4xl md:text-5xl font-serif font-black text-brand-600 leading-none mb-1">3+</p>
-                <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400 leading-tight">
+              <div className="absolute bottom-6 -right-6 bg-theme-card border border-theme-border p-6 rounded-theme shadow-xl z-20 text-center">
+                <p className="text-4xl font-serif font-black text-brand mb-1">3+</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-theme-dim leading-tight">
                   Years of<br/>Mastery
                 </p>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
         </div>

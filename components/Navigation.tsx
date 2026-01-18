@@ -1,67 +1,34 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Sun, Moon, Home, Layers, Code, MessageSquare, FileText, Languages, ChevronDown, Check, Globe, Palette } from 'lucide-react';
+import { Sun, Moon, Languages, Palette, Check, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { NAV_ITEMS } from '../constants';
-import { ThemeSelector } from './ThemeSelector';
+import { NAV_ITEMS, LANGUAGES } from '../constants';
+import { useTheme, ACCENT_COLORS } from './ThemeContext';
 
 interface NavigationProps {
-  isDark: boolean;
-  toggleTheme: () => void;
   onViewCV: () => void;
 }
 
-const LANGUAGES = [
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'bn', name: 'বাংলা (Bengali)', flag: '🇧🇩' },
-  { code: 'hi', name: 'हिन्दी (Hindi)', flag: '🇮🇳' },
-  { code: 'ur', name: 'اردو (Urdu)', flag: '🇵🇰' },
-  { code: 'ar', name: 'العربية (Arabic)', flag: '🇸🇦' },
-  { code: 'es', name: 'Español (Spanish)', flag: '🇪🇸' },
-  { code: 'pt', name: 'Português', flag: '🇵🇹' },
-  { code: 'fr', name: 'Français', flag: '🇫🇷' },
-  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
-  { code: 'zh-CN', name: '简体中文', flag: '🇨🇳' },
-  { code: 'ja', name: '日本語 (Japanese)', flag: '🇯🇵' },
-  { code: 'ko', name: '한국어 (Korean)', flag: '🇰🇷' },
-  { code: 'mi', name: 'Maori', flag: '🇳🇿' },
-  { code: 'tpi', name: 'Tok Pisin', flag: '🇵🇬' },
-];
-
-export const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme, onViewCV }) => {
+export const Navigation: React.FC<NavigationProps> = ({ onViewCV }) => {
+  const { mode, toggleMode, language, accentColor, setAccentColor } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('#hero');
-  const [dropdownType, setDropdownType] = useState<'lang' | 'theme' | null>(null);
-  const [currentLang, setCurrentLang] = useState('en');
-  const navRef = useRef<HTMLDivElement>(null);
-  const mobileRef = useRef<HTMLDivElement>(null);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const [currentLangCode, setCurrentLangCode] = useState('en');
 
+  const paletteRef = useRef<HTMLDivElement>(null);
+  const langRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      const sections = ['#hero', '#advantage', '#services', '#work', '#testimonials', '#contact'];
-      for (const section of sections.reverse()) {
-        const element = document.querySelector(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 150) {
-            setActiveSection(section);
-            break;
-          }
-        }
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleClickOutside = (e: MouseEvent) => {
+      if (paletteRef.current && !paletteRef.current.contains(e.target as Node)) {
+        setIsPaletteOpen(false);
+      }
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setIsLangOpen(false);
       }
     };
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        (navRef.current && !navRef.current.contains(event.target as Node)) &&
-        (mobileRef.current && !mobileRef.current.contains(event.target as Node))
-      ) {
-        setDropdownType(null);
-      }
-    };
-
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -70,168 +37,193 @@ export const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme, onV
     };
   }, []);
 
+  // ROBUST GOOGLE TRANSLATE LOGIC
   const changeLanguage = (langCode: string) => {
-    setCurrentLang(langCode);
-    setDropdownType(null);
-    const googleSelect = document.querySelector('.goog-te-combo') as HTMLSelectElement;
-    if (googleSelect) {
-      googleSelect.value = langCode;
-      googleSelect.dispatchEvent(new Event('change'));
-      document.documentElement.lang = langCode;
+    setCurrentLangCode(langCode);
+    setIsLangOpen(false);
+    
+    // Update HTML attribute for font-family overrides
+    document.documentElement.setAttribute('data-applied-lang', langCode);
+
+    const combo = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+    if (combo) {
+      combo.value = langCode;
+      combo.dispatchEvent(new Event('change'));
+    } else {
+      console.warn('Google Translate combo not found. Engine might still be loading.');
+      // Attempt retry after a short delay
+      setTimeout(() => {
+        const retryCombo = document.querySelector('.goog-te-combo') as HTMLSelectElement;
+        if (retryCombo) {
+          retryCombo.value = langCode;
+          retryCombo.dispatchEvent(new Event('change'));
+        }
+      }, 1000);
     }
   };
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    setActiveSection(href);
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 100;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-    }
-  };
-
-  const mobileNavItems = [
-    { icon: Home, href: '#hero' },
-    { icon: Layers, href: '#services' },
-    { icon: Code, href: '#work' },
-    { icon: MessageSquare, href: '#contact' },
-  ];
+  const currentLang = LANGUAGES.find(l => l.code === currentLangCode) || LANGUAGES[0];
 
   return (
-    <>
-      <nav ref={navRef} className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-white/80 dark:bg-deep-950/80 backdrop-blur-xl py-4 border-b border-slate-200 dark:border-white/5' : 'bg-transparent py-8'
-      }`}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
-          <a href="#" onClick={(e) => scrollToSection(e, '#hero')} className="text-xl font-serif font-black tracking-tighter text-slate-950 dark:text-white">
-            Al-amin<span className="text-brand-600">.</span>
-          </a>
+    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+      isScrolled ? 'bg-theme-bg/90 backdrop-blur-md border-b border-theme-border py-4' : 'bg-transparent py-6'
+    }`}>
+      <div className="section-container flex justify-between items-center">
+        <a href="#" className="text-2xl font-bold tracking-tighter text-theme-text group">
+          Al-amin<span className="text-brand inline-block group-hover:scale-125 transition-transform">.</span>
+        </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
-            {NAV_ITEMS.map((item) => {
-              if (item.isAction) return (
-                <button key={item.label} onClick={onViewCV} className="px-5 py-2.5 bg-brand-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-brand-700 transition-all shadow-lg shadow-brand-600/20">
-                  {item.label}
+        <div className="hidden md:flex items-center space-x-6">
+           {NAV_ITEMS.filter(i => !i.isAction).map(item => (
+             <a key={item.label} href={item.href} className="text-[10px] font-bold uppercase tracking-widest text-theme-dim hover:text-brand transition-colors">
+               {item.label}
+             </a>
+           ))}
+           
+           <div className="h-4 w-[1px] bg-theme-border"></div>
+
+           <div className="flex items-center space-x-3">
+              {/* CUSTOM LANGUAGE DROPDOWN */}
+              <div className="relative" ref={langRef}>
+                <button 
+                  onClick={() => setIsLangOpen(!isLangOpen)}
+                  className={`flex items-center space-x-2 px-3 py-1.5 rounded-full border transition-all bg-theme-card ${
+                    isLangOpen ? 'border-brand text-brand' : 'border-theme-border text-theme-dim hover:border-brand hover:text-brand'
+                  }`}
+                >
+                  <Globe size={14} />
+                  <span className="text-[10px] font-black uppercase tracking-tighter">
+                    {currentLang.native}
+                  </span>
                 </button>
-              );
-              const isActive = activeSection === item.href;
-              return (
-                <a key={item.label} href={item.href} onClick={(e) => scrollToSection(e, item.href)} className={`text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 relative group ${isActive ? 'text-brand-600 dark:text-brand-400' : 'text-slate-500 hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-500'}`}>
-                  {item.label}
-                  <span className={`absolute -bottom-1 left-0 h-[2px] bg-brand-600 transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
-                </a>
-              );
-            })}
 
-            {/* Desktop Theme Switcher */}
-            <div className="relative">
-              <button onClick={() => setDropdownType(dropdownType === 'theme' ? null : 'theme')} className={`p-2.5 rounded-full transition-all bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 ${dropdownType === 'theme' ? 'ring-2 ring-brand-600/20' : ''}`}>
-                <Palette size={18} />
+                <AnimatePresence>
+                  {isLangOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute top-full mt-3 right-0 w-64 bg-theme-bg border border-theme-border rounded-2xl shadow-2xl p-2 z-[110] max-h-[70vh] overflow-y-auto custom-scrollbar"
+                    >
+                      <p className="text-[9px] font-black uppercase tracking-widest text-theme-dim mb-2 px-3 pt-2">Select Language</p>
+                      <div className="space-y-1">
+                        {LANGUAGES.map(lang => (
+                          <button
+                            key={lang.code}
+                            onClick={() => changeLanguage(lang.code)}
+                            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all text-left group ${
+                              currentLangCode === lang.code ? 'bg-brand/10 text-brand' : 'hover:bg-theme-card text-theme-dim hover:text-theme-text'
+                            }`}
+                          >
+                            <div className="flex items-center space-x-3">
+                              <span className="text-lg">{lang.flag}</span>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-bold">{lang.native}</span>
+                                <span className="text-[9px] opacity-60 uppercase tracking-tighter font-medium">{lang.label}</span>
+                              </div>
+                            </div>
+                            {currentLangCode === lang.code && <Check size={12} />}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Color Palette */}
+              <div className="relative" ref={paletteRef}>
+                <button 
+                  onClick={() => setIsPaletteOpen(!isPaletteOpen)}
+                  className={`p-2 rounded-full transition-all ${isPaletteOpen ? 'bg-brand text-white' : 'text-theme-dim hover:bg-theme-card'}`}
+                >
+                  <Palette size={18} />
+                </button>
+                
+                <AnimatePresence>
+                  {isPaletteOpen && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute top-full mt-3 right-0 w-48 bg-theme-bg border border-theme-border rounded-2xl shadow-2xl p-3 z-[110]"
+                    >
+                      <p className="text-[9px] font-black uppercase tracking-widest text-theme-dim mb-3 px-1">Accent Colors</p>
+                      <div className="grid grid-cols-5 gap-2">
+                        {ACCENT_COLORS.map(c => (
+                          <button
+                            key={c.id}
+                            onClick={() => {
+                              setAccentColor(c.id);
+                              setIsPaletteOpen(false);
+                            }}
+                            className="w-full aspect-square rounded-lg flex items-center justify-center relative overflow-hidden group shadow-sm"
+                            style={{ backgroundColor: c.val }}
+                          >
+                            {accentColor === c.id && <Check size={12} className="text-white drop-shadow-md" />}
+                            <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Dark Mode Toggle */}
+              <button onClick={toggleMode} className="p-2 rounded-full text-theme-dim hover:text-brand hover:bg-theme-card transition-all">
+                {mode === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
-              <AnimatePresence>
-                {dropdownType === 'theme' && (
-                  <motion.div initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 10, scale: 0.95 }} className="absolute top-full mt-4 right-0 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl z-[60]">
-                    <ThemeSelector onSelect={() => setDropdownType(null)} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Desktop Language Dropdown */}
-            <div className="relative">
-              <button onClick={() => setDropdownType(dropdownType === 'lang' ? null : 'lang')} className="flex items-center space-x-2 px-3 py-2 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl hover:border-brand-600 transition-all group">
-                <Languages size={14} className="text-brand-600" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 min-w-[50px] text-left">
-                  {LANGUAGES.find(l => l.code === currentLang)?.name.split(' ')[0]}
-                </span>
-                <ChevronDown size={12} className={`text-slate-400 transition-transform ${dropdownType === 'lang' ? 'rotate-180' : ''}`} />
-              </button>
-              <AnimatePresence>
-                {dropdownType === 'lang' && (
-                  <motion.div initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 10, scale: 0.95 }} className="absolute top-full mt-4 right-0 w-56 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-2xl shadow-2xl overflow-hidden py-2 z-[60] max-h-[60vh] overflow-y-auto custom-scrollbar">
-                    {LANGUAGES.map((lang) => (
-                      <button key={lang.code} onClick={() => changeLanguage(lang.code)} className="w-full px-4 py-2.5 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group text-left">
-                        <div className="flex items-center space-x-3">
-                          <span className="text-lg leading-none">{lang.flag}</span>
-                          <span className={`text-[11px] font-bold tracking-wide ${currentLang === lang.code ? 'text-brand-600' : 'text-slate-600 dark:text-slate-400'}`}>{lang.name}</span>
-                        </div>
-                        {currentLang === lang.code && <Check size={12} className="text-brand-600" />}
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <button onClick={toggleTheme} className="p-2.5 bg-slate-100 dark:bg-white/5 rounded-full hover:bg-brand-600 hover:text-white transition-all shadow-sm">
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-          </div>
-
-          {/* Mobile Header Icons */}
-          <div className="md:hidden flex items-center space-x-2">
-             <button onClick={() => setDropdownType(dropdownType === 'theme' ? 'theme' : 'theme')} className={`p-2.5 rounded-full transition-all ${dropdownType === 'theme' ? 'bg-brand-600 text-white' : 'bg-slate-100 dark:bg-white/5 text-brand-600'}`}>
-                <Palette size={18} />
-             </button>
-             <button onClick={() => setDropdownType(dropdownType === 'lang' ? 'lang' : 'lang')} className={`p-2.5 rounded-full transition-all ${dropdownType === 'lang' ? 'bg-brand-600 text-white' : 'bg-slate-100 dark:bg-white/5 text-brand-600'}`}>
-                <Globe size={18} />
-             </button>
-             <button onClick={onViewCV} className="p-2.5 bg-brand-600 text-white rounded-full shadow-lg shadow-brand-600/20">
-                <FileText size={18} />
-             </button>
-             <button onClick={toggleTheme} className="p-2.5 bg-slate-100 dark:bg-white/5 rounded-full text-slate-600 dark:text-slate-400">
-                {isDark ? <Sun size={18} /> : <Moon size={18} />}
-             </button>
-          </div>
+           </div>
         </div>
-
-        {/* Mobile Dropdowns Overlay */}
-        <AnimatePresence>
-          {dropdownType && (
-            <motion.div ref={mobileRef} initial={{ opacity: 0, y: 10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 10, scale: 0.95 }} className="md:hidden absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[92%] bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 rounded-[2rem] shadow-2xl overflow-hidden py-4 z-[100] max-h-[70vh] overflow-y-auto custom-scrollbar">
-              {dropdownType === 'theme' ? (
-                <ThemeSelector onSelect={() => setDropdownType(null)} />
-              ) : (
-                <div className="px-2">
-                   <div className="px-5 py-2 mb-2 border-b border-slate-100 dark:border-white/5 flex items-center space-x-2">
-                      <Languages size={14} className="text-brand-600" />
-                      <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Language</p>
-                   </div>
-                   {LANGUAGES.map((lang) => (
-                     <button key={lang.code} onClick={() => changeLanguage(lang.code)} className="w-full px-5 py-3.5 flex items-center justify-between hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group text-left active:bg-brand-50">
-                       <div className="flex items-center space-x-4">
-                         <span className="text-xl leading-none">{lang.flag}</span>
-                         <span className={`text-[12px] font-bold tracking-wide ${currentLang === lang.code ? 'text-brand-600' : 'text-slate-600 dark:text-slate-400'}`}>{lang.name}</span>
-                       </div>
-                       {currentLang === lang.code && <Check size={14} className="text-brand-600" />}
-                     </button>
-                   ))}
-                </div>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-
-      <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm">
-        <div className="glass bg-white/90 dark:bg-deep-950/90 border border-slate-200 dark:border-white/10 rounded-[2rem] p-2 flex justify-between items-center shadow-2xl">
-          {mobileNavItems.map((item, index) => {
-            const Icon = item.icon;
-            const isActive = activeSection === item.href;
-            return (
-              <a key={index} href={item.href} onClick={(e) => scrollToSection(e, item.href)} className={`flex-1 flex justify-center py-3 rounded-2xl transition-all duration-300 ${isActive ? 'text-brand-600 bg-brand-50/50 dark:bg-brand-900/20' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'}`}>
-                <Icon size={20} className={isActive ? 'scale-110' : 'scale-100'} />
-              </a>
-            );
-          })}
+        
+        {/* Mobile controls */}
+        <div className="md:hidden flex items-center space-x-2">
+           <button 
+              onClick={() => setIsLangOpen(!isLangOpen)} 
+              className="px-2 py-1 text-[10px] font-black border border-theme-border rounded text-theme-text uppercase flex items-center space-x-1"
+           >
+             <Globe size={12} />
+             <span>{currentLang.code.toUpperCase()}</span>
+           </button>
+           <button onClick={() => setIsPaletteOpen(!isPaletteOpen)} className="p-2 text-brand"><Palette size={20} /></button>
+           <button onClick={toggleMode} className="p-2 text-theme-dim">{mode === 'dark' ? <Sun size={20} /> : <Moon size={20} />}</button>
         </div>
       </div>
-    </>
+      
+      {/* Mobile Lang Panel */}
+      <AnimatePresence>
+        {isLangOpen && (
+          <div className="md:hidden fixed inset-0 z-[200]">
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setIsLangOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
+              className="absolute bottom-0 left-0 right-0 bg-theme-bg rounded-t-[2.5rem] border-t border-theme-border p-6 pt-10"
+            >
+               <div className="w-12 h-1 bg-theme-border mx-auto mb-8 rounded-full" />
+               <h3 className="text-xl font-serif font-black mb-6">Select Language</h3>
+               <div className="grid grid-cols-2 gap-3 max-h-[60vh] overflow-y-auto">
+                 {LANGUAGES.map(lang => (
+                   <button
+                     key={lang.code}
+                     onClick={() => changeLanguage(lang.code)}
+                     className={`flex flex-col p-4 rounded-2xl border transition-all ${
+                        currentLangCode === lang.code ? 'border-brand bg-brand/5' : 'border-theme-border bg-theme-card'
+                     }`}
+                   >
+                     <span className="text-2xl mb-2">{lang.flag}</span>
+                     <span className="text-sm font-bold truncate">{lang.native}</span>
+                   </button>
+                 ))}
+               </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 };

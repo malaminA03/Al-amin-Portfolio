@@ -1,54 +1,50 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
+// Fix: Removed non-existent ThemeType and unused motion import to clean up the component.
 import { useTheme } from './ThemeContext';
-import { Check, Palette } from 'lucide-react';
+import { Check, Palette, Monitor, Zap, Shield, Terminal } from 'lucide-react';
 
+// Fix: Aligned THEMES IDs with the valid accentColor IDs defined in ThemeContext.tsx
 const THEMES = [
-  { id: 'default', name: 'Violet', color: '#7c3aed' },
-  { id: 'ocean', name: 'Ocean', color: '#0d9488' },
-  { id: 'sunset', name: 'Sunset', color: '#ea580c' },
-  { id: 'forest', name: 'Forest', color: '#16a34a' },
-  { id: 'cyber', name: 'Cyber', color: '#db2777' },
+  { id: 'violet', name: 'Violet', icon: Monitor, color: '#7c3aed' },
+  { id: 'blue', name: 'Ocean', icon: Zap, color: '#2563eb' },
+  { id: 'orange', name: 'Sunset', icon: Shield, color: '#ea580c' },
+  { id: 'emerald', name: 'Forest', icon: Monitor, color: '#059669' },
+  { id: 'pink', name: 'Cyber', icon: Terminal, color: '#db2777' },
 ] as const;
 
-interface ThemeSelectorProps {
-  onSelect?: () => void;
-}
-
-export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onSelect }) => {
-  const { theme, setTheme } = useTheme();
+export const ThemeSelector: React.FC<{ onSelect?: () => void }> = ({ onSelect }) => {
+  // Fix: Changed 'theme' to 'accentColor' and 'setTheme' to 'setAccentColor' to match the ThemeContextType definition.
+  const { accentColor, setAccentColor } = useTheme();
 
   return (
-    <div className="p-4 space-y-4">
-      <div className="flex items-center space-x-2 px-2 pb-2 border-b border-slate-100 dark:border-white/5">
-        <Palette size={14} className="text-brand-600" />
-        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Appearance</p>
+    <div className="p-4 bg-theme-bg">
+      <div className="flex items-center space-x-2 px-2 pb-3 mb-2 border-b border-theme-border">
+        <Palette size={14} className="text-brand" />
+        <p className="text-[10px] font-black uppercase tracking-widest text-theme-dim">UI Skin Selection</p>
       </div>
-      <div className="grid grid-cols-1 gap-2">
+      <div className="space-y-1">
         {THEMES.map((t) => (
           <button
             key={t.id}
             onClick={() => {
-              setTheme(t.id);
+              setAccentColor(t.id);
               onSelect?.();
             }}
-            className="flex items-center justify-between w-full px-3 py-2.5 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 transition-all group"
+            className={`flex items-center justify-between w-full px-4 py-3 rounded-theme transition-all ${
+              accentColor === t.id ? 'bg-brand/10 border border-brand/20' : 'hover:bg-theme-card'
+            }`}
           >
             <div className="flex items-center space-x-3">
               <div 
-                className="w-5 h-5 rounded-full shadow-inner flex-shrink-0" 
+                className="w-4 h-4 rounded-full shadow-inner" 
                 style={{ backgroundColor: t.color }}
               />
-              <span className={`text-[11px] font-bold tracking-wide ${theme === t.id ? 'text-brand-600' : 'text-slate-600 dark:text-slate-400'}`}>
+              <span className={`text-[12px] font-bold tracking-tight ${accentColor === t.id ? 'text-brand' : 'text-theme-text'}`}>
                 {t.name}
-              </span >
+              </span>
             </div>
-            {theme === t.id && (
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
-                <Check size={14} className="text-brand-600" />
-              </motion.div>
-            )}
+            {accentColor === t.id && <Check size={14} className="text-brand" />}
           </button>
         ))}
       </div>
