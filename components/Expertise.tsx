@@ -25,60 +25,60 @@ const TOOLS = [
   },
   { 
     name: 'Photoshop', 
-    tag: 'CREATIVE', 
+    tag: 'DESIGN', 
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg' 
   },
   { 
     name: 'Illustrator', 
-    tag: 'CREATIVE', 
+    tag: 'DESIGN', 
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/illustrator/illustrator-line.svg' 
   },
   { 
     name: 'Premiere Pro', 
-    tag: 'CREATIVE', 
+    tag: 'VIDEO', 
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/premierepro/premierepro-original.svg' 
   },
   { 
     name: 'Facebook', 
-    tag: 'PLATFORM', 
+    tag: 'AD ADS', 
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/facebook/facebook-original.svg' 
   },
 ];
 
 export const Expertise: React.FC = () => {
   return (
-    <SectionWrapper id="expertise" className="py-20">
-      <div className="mb-16 md:text-center">
-        <h2 className="text-brand-600 dark:text-brand-400 font-bold uppercase tracking-widest text-sm mb-3">
+    <SectionWrapper id="expertise" className="bg-slate-50 dark:bg-slate-900/30 rounded-[3rem] my-20">
+      <div className="mb-16 text-center">
+        <h2 className="text-brand-600 dark:text-brand-400 font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs mb-3">
           Expertise
         </h2>
         <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white">
-          Tools of the trade.
+          Digital Arsenal.
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
         {TOOLS.map((tool, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.05 }}
-            className="flex items-center p-6 bg-slate-900 rounded-xl border border-slate-700 shadow-sm hover:shadow-xl hover:border-brand-500/50 transition-all duration-300 group"
+            className="flex flex-col items-center justify-center p-6 md:p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-brand-500/50 transition-all duration-300 group"
           >
-            <div className="w-12 h-12 flex-shrink-0 mr-4 flex items-center justify-center">
+            <div className="w-14 h-14 md:w-20 md:h-20 flex items-center justify-center mb-4">
               <img 
                 src={tool.icon} 
                 alt={tool.name} 
-                className="w-10 h-10 object-contain drop-shadow-sm group-hover:scale-110 transition-transform duration-300" 
+                className="w-12 h-12 md:w-16 md:h-16 object-contain filter group-hover:drop-shadow-[0_0_15px_rgba(124,58,237,0.3)] group-hover:scale-110 transition-all duration-300" 
               />
             </div>
-            <div>
-              <h4 className="text-lg font-bold text-white leading-tight group-hover:text-brand-400 transition-colors">
+            <div className="text-center">
+              <h4 className="text-sm md:text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-brand-500 transition-colors">
                 {tool.name}
               </h4>
-              <span className="text-xs font-bold text-slate-500 tracking-wider">
+              <span className="text-[9px] md:text-[10px] font-bold text-slate-400 dark:text-slate-500 tracking-widest uppercase">
                 {tool.tag}
               </span>
             </div>
