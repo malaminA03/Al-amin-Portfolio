@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
+import { ThemeProvider } from './components/ThemeContext';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { ContentSections } from './components/ContentSections';
@@ -25,7 +26,7 @@ function App() {
   const popupTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+    const savedTheme = localStorage.getItem('theme-mode') as 'light' | 'dark' | null;
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     if (savedTheme) {
@@ -73,7 +74,7 @@ function App() {
     } else {
       root.classList.remove('dark');
     }
-    localStorage.setItem('theme', theme);
+    localStorage.setItem('theme-mode', theme);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -92,51 +93,52 @@ function App() {
   };
 
   return (
-    <div className={`relative w-full overflow-hidden animated-bg transition-colors duration-500 min-h-screen ${showCV ? 'h-screen' : ''}`}>
-      <AnimatePresence mode="wait">
-        {isLoading ? (
-          <LoadingScreen key="loader" />
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          >
-            <Navigation 
-              isDark={theme === 'dark'} 
-              toggleTheme={toggleTheme} 
-              onViewCV={() => setShowCV(true)}
-            />
-            
-            <main>
-              <Hero />
-              <ContentSections />
-              <MarqueeBanner />
-              <Expertise />
-              <Services />
-              <ProjectGrid />
-              <Process />
-              <Testimonials />
-              <ContactSection />
-            </main>
+    <ThemeProvider>
+      <div className={`relative w-full overflow-hidden animated-bg transition-colors duration-500 min-h-screen ${showCV ? 'h-screen' : ''}`}>
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <LoadingScreen key="loader" />
+          ) : (
+            <motion.div
+              key="content"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              <Navigation 
+                isDark={theme === 'dark'} 
+                toggleTheme={toggleTheme} 
+                onViewCV={() => setShowCV(true)}
+              />
+              
+              <main>
+                <Hero />
+                <ContentSections />
+                <MarqueeBanner />
+                <Expertise />
+                <Services />
+                <ProjectGrid />
+                <Process />
+                <Testimonials />
+                <ContactSection />
+              </main>
 
-            <HirePopup 
-              isVisible={showHirePopup} 
-              onClose={handleTemporaryClose}
-              onCancel={handlePermanentDismiss}
-            />
+              <HirePopup 
+                isVisible={showHirePopup} 
+                onClose={handleTemporaryClose}
+                onCancel={handlePermanentDismiss}
+              />
 
-            <Footer onViewCV={() => setShowCV(true)} />
+              <Footer onViewCV={() => setShowCV(true)} />
 
-            {/* CV Overlay */}
-            <AnimatePresence>
-              {showCV && <CVPage onClose={() => setShowCV(false)} />}
-            </AnimatePresence>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+              <AnimatePresence>
+                {showCV && <CVPage onClose={() => setShowCV(false)} />}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </ThemeProvider>
   );
 }
 
