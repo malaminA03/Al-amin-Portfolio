@@ -4,7 +4,6 @@ import {
   Server, 
   Layout, 
   Palette, 
-  Share2, 
   Layers,
   Zap,
   Search,
@@ -15,7 +14,12 @@ import {
   Facebook,
   Twitter,
   Database,
-  BarChart
+  BarChart,
+  Instagram,
+  Youtube,
+  Music2, // TikTok fallback
+  AtSign, // Threads fallback
+  Pin     // Pinterest fallback
 } from 'lucide-react';
 import { Project, Skill, Stat, NavItem } from './types';
 
@@ -29,10 +33,15 @@ export const USER_INFO = {
 };
 
 export const SOCIAL_LINKS = [
-  { name: 'GitHub', url: 'https://github.com', icon: Github },
-  { name: 'LinkedIn', url: 'https://linkedin.com', icon: Linkedin },
-  { name: 'Facebook', url: 'https://facebook.com', icon: Facebook },
-  { name: 'Twitter', url: 'https://twitter.com', icon: Twitter },
+  { name: 'GitHub', url: 'https://github.com/malaminA03', icon: Github },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/mdalamins20/', icon: Linkedin },
+  { name: 'Facebook', url: 'https://www.facebook.com/mdalamins20', icon: Facebook },
+  { name: 'X (Twitter)', url: 'https://x.com/mdalamins20', icon: Twitter },
+  { name: 'Instagram', url: 'https://www.instagram.com/mdalamins20/', icon: Instagram },
+  { name: 'TikTok', url: 'https://www.tiktok.com/@mdalamins200', icon: Music2 },
+  { name: 'Threads', url: 'https://www.threads.com/@mdalamins20', icon: AtSign },
+  { name: 'YouTube', url: 'https://www.youtube.com/@MdalaminS20', icon: Youtube },
+  { name: 'Pinterest', url: 'https://www.pinterest.com/mdalamins20/', icon: Pin },
 ];
 
 export const NAV_ITEMS: NavItem[] = [

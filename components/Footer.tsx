@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
             <p className="text-neutral-500 dark:text-neutral-400 max-w-sm mb-8">
               Creating digital products that merge minimalist aesthetics with powerful engineering.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex flex-wrap gap-3">
               {SOCIAL_LINKS.map((link) => {
                 const Icon = link.icon;
                 return (
@@ -28,6 +28,7 @@ export const Footer: React.FC = () => {
                     href={link.url}
                     target="_blank"
                     rel="noreferrer" 
+                    title={link.name}
                     className="w-10 h-10 rounded-full border border-neutral-200 dark:border-neutral-800 flex items-center justify-center text-neutral-500 hover:text-brand-600 hover:border-brand-600 dark:hover:text-brand-400 dark:hover:border-brand-400 transition-colors"
                   >
                     <Icon size={18} />

@@ -1,9 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { USER_INFO } from '../constants';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Calendar, MessageCircle } from 'lucide-react';
 
 export const Hero: React.FC = () => {
+  const whatsappNumber = "8801778189644";
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=Hello%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20book%20a%20consultation.`;
+
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden px-6 md:px-12 pt-24 pb-12 lg:py-0">
       
@@ -52,21 +55,45 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+            className="flex flex-col gap-6 w-full sm:w-auto"
           >
-            <a 
-              href="#contact"
-              className="px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-lg shadow-lg shadow-brand-600/30 flex items-center justify-center space-x-2 transition-all hover:scale-105"
-            >
-              <span>Book a Consultation</span>
-              <ArrowRight size={18} />
-            </a>
-            <a 
-              href="#work"
-              className="px-8 py-4 bg-transparent border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 font-semibold rounded-lg flex items-center justify-center space-x-2 transition-all"
-            >
-              <span>View Portfolio</span>
-            </a>
+            {/* Primary CTA Group */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="relative group">
+                {/* Decorative glow for the main button */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-brand-600 to-blue-600 rounded-lg blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
+                <a 
+                  href="#contact"
+                  className="relative px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-lg flex items-center justify-center space-x-3 transition-all transform hover:-translate-y-1"
+                >
+                  <Calendar size={20} />
+                  <span>Free Strategy Session</span>
+                  <ArrowRight size={18} />
+                </a>
+              </div>
+
+              <a 
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700/50 font-bold rounded-lg flex items-center justify-center space-x-3 transition-all shadow-sm"
+              >
+                <MessageCircle size={20} className="text-green-500" />
+                <span>Quick Chat</span>
+              </a>
+            </div>
+
+            {/* Response Time & Info Indicator */}
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                <span className="w-1.5 h-1.5 bg-brand-500 rounded-full mr-2"></span>
+                Avg. Response: 2 Hours
+              </div>
+              <div className="flex items-center text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-2"></span>
+                15-Min Discovery Call
+              </div>
+            </div>
           </motion.div>
         </div>
 
@@ -88,6 +115,12 @@ export const Hero: React.FC = () => {
                   alt={USER_INFO.name} 
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ease-in-out"
                 />
+            </div>
+
+            {/* Floating Experience Badge */}
+            <div className="absolute -bottom-6 -left-6 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-2xl border border-slate-100 dark:border-slate-800 hidden md:block animate-bounce-slow">
+               <p className="text-2xl font-bold text-brand-600 dark:text-brand-400">3+</p>
+               <p className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Years of Craft</p>
             </div>
           </motion.div>
         </div>
