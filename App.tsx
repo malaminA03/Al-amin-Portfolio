@@ -13,18 +13,18 @@ import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
 import { MarqueeBanner } from './components/MarqueeBanner';
 import { HirePopup } from './components/HirePopup';
+import { CVPage } from './components/CVPage';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [isLoading, setIsLoading] = useState(true);
+  const [showCV, setShowCV] = useState(false);
   const [showHirePopup, setShowHirePopup] = useState(false);
   const [isPermanentlyDismissed, setIsPermanentlyDismissed] = useState(false);
-  // Fix: Changed NodeJS.Timeout to ReturnType<typeof setInterval> for browser compatibility.
   const popupTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    // Theme setup
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
@@ -34,11 +34,9 @@ function App() {
       setTheme('dark');
     }
 
-    // Dismissal state
     const dismissed = localStorage.getItem('hire_popup_dismissed') === 'true';
     setIsPermanentlyDismissed(dismissed);
 
-    // Initial loading timer - Matches LoadingScreen's 2000ms
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000);
@@ -46,7 +44,6 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Popup logic
   useEffect(() => {
     if (isLoading || isPermanentlyDismissed) return;
 
@@ -55,10 +52,9 @@ function App() {
         if (!showHirePopup) {
           setShowHirePopup(true);
         }
-      }, 30000); // 30 seconds
+      }, 30000);
     };
 
-    // First appearance after 30s
     const initialTimer = setTimeout(() => {
       setShowHirePopup(true);
       startPopupTimer();
@@ -86,7 +82,6 @@ function App() {
 
   const handleTemporaryClose = () => {
     setShowHirePopup(false);
-    // The interval in useEffect will trigger it again in 30s
   };
 
   const handlePermanentDismiss = () => {
@@ -97,7 +92,7 @@ function App() {
   };
 
   return (
-    <div className="relative w-full overflow-hidden animated-bg transition-colors duration-500 min-h-screen">
+    <div className={`relative w-full overflow-hidden animated-bg transition-colors duration-500 min-h-screen ${showCV ? 'h-screen' : ''}`}>
       <AnimatePresence mode="wait">
         {isLoading ? (
           <LoadingScreen key="loader" />
@@ -108,7 +103,11 @@ function App() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <Navigation isDark={theme === 'dark'} toggleTheme={toggleTheme} />
+            <Navigation 
+              isDark={theme === 'dark'} 
+              toggleTheme={toggleTheme} 
+              onViewCV={() => setShowCV(true)}
+            />
             
             <main>
               <Hero />
@@ -128,7 +127,12 @@ function App() {
               onCancel={handlePermanentDismiss}
             />
 
-            <Footer />
+            <Footer onViewCV={() => setShowCV(true)} />
+
+            {/* CV Overlay */}
+            <AnimatePresence>
+              {showCV && <CVPage onClose={() => setShowCV(false)} />}
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>

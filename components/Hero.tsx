@@ -8,7 +8,6 @@ export const Hero: React.FC = () => {
   const whatsappLink = `https://wa.me/8801778189644?text=Hello%20Al-amin!`;
   const [greeting, setGreeting] = useState('');
   
-  // Mouse interaction for the spotlight effect
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
@@ -31,7 +30,6 @@ export const Hero: React.FC = () => {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden px-6 lg:px-12">
-      {/* Interactive Spotlight Backdrop */}
       <motion.div 
         className="fixed inset-0 pointer-events-none z-0 opacity-40 dark:opacity-20 hidden md:block"
         style={{
@@ -39,14 +37,12 @@ export const Hero: React.FC = () => {
         }}
       />
 
-      {/* Background Soft Glows */}
       <div className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-brand-500/5 rounded-full blur-[120px] -z-10"></div>
       <div className="absolute bottom-0 left-[-5%] w-[30vw] h-[30vw] bg-blue-500/5 rounded-full blur-[100px] -z-10"></div>
 
       <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center relative z-10">
         
-        {/* Left: Content */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 pr-4 lg:pr-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -63,21 +59,26 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-6xl md:text-8xl lg:text-9xl font-serif font-bold tracking-tight text-slate-950 dark:text-white leading-[0.9] mb-8"
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold tracking-tight text-slate-950 dark:text-white leading-[1.1] mb-6 whitespace-nowrap"
             >
-              {USER_INFO.firstName}<br/>
+              {USER_INFO.firstName}{' '}
               <span className="text-brand-600">{USER_INFO.lastName}.</span>
             </motion.h1>
           </div>
 
-          <motion.p
+          <motion.div
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.8, delay: 0.2 }}
-             className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium mb-12 max-w-lg leading-snug"
+             transition={{ duration: 0.8, delay: 0.15 }}
+             className="mb-8"
           >
-            {USER_INFO.tagline}
-          </motion.p>
+            <p className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium max-w-lg leading-snug mb-2">
+              {USER_INFO.tagline}
+            </p>
+            <p className="text-sm md:text-base text-slate-400 dark:text-slate-500 font-medium max-w-md italic">
+              {USER_INFO.supportingLine}
+            </p>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -126,15 +127,13 @@ export const Hero: React.FC = () => {
           </motion.div>
         </div>
 
-        {/* Right: Editorial Image Container */}
         <div className="lg:col-span-5 relative flex justify-center lg:justify-end">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-[480px] group"
+            className="relative w-full max-w-[420px] lg:max-w-[480px] group"
           >
-            {/* Background Shape */}
             <div className="absolute -inset-4 bg-slate-100 dark:bg-slate-900 rounded-[3.5rem] -z-10 group-hover:scale-105 transition-transform duration-700"></div>
             
             <div className="relative overflow-hidden rounded-[3rem] shadow-2xl border border-white/10 aspect-[3/4]">
@@ -144,7 +143,6 @@ export const Hero: React.FC = () => {
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out scale-110 group-hover:scale-100"
               />
               
-              {/* Floating Badge */}
               <motion.div 
                 animate={{ y: [0, -15, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}

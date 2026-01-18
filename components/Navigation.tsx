@@ -1,13 +1,15 @@
+
 import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Home, Layers, Code, Mail, MessageSquare } from 'lucide-react';
+import { Sun, Moon, Home, Layers, Code, Mail, MessageSquare, FileText } from 'lucide-react';
 import { NAV_ITEMS } from '../constants';
 
 interface NavigationProps {
   isDark: boolean;
   toggleTheme: () => void;
+  onViewCV: () => void;
 }
 
-export const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme }) => {
+export const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme, onViewCV }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('#hero');
 
@@ -15,7 +17,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme }) =
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
-      // Simple active section detection
       const sections = ['#hero', '#advantage', '#services', '#work', '#testimonials', '#contact'];
       for (const section of sections.reverse()) {
         const element = document.querySelector(section);
@@ -65,11 +66,22 @@ export const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme }) =
       }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex justify-between items-center">
           <a href="#" onClick={(e) => scrollToSection(e, '#hero')} className="text-xl font-serif font-black tracking-tighter text-slate-950 dark:text-white">
-            Muhammad Al-amin<span className="text-brand-600">.</span>
+            Al-amin<span className="text-brand-600">.</span>
           </a>
 
           <div className="hidden md:flex items-center space-x-10">
             {NAV_ITEMS.map((item) => {
+              if (item.isAction) {
+                return (
+                  <button
+                    key={item.label}
+                    onClick={onViewCV}
+                    className="px-5 py-2.5 bg-brand-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-brand-700 transition-all shadow-lg shadow-brand-600/20"
+                  >
+                    {item.label}
+                  </button>
+                );
+              }
               const isActive = activeSection === item.href;
               return (
                 <a
@@ -94,7 +106,10 @@ export const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme }) =
             </button>
           </div>
 
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center space-x-4">
+             <button onClick={onViewCV} className="p-2.5 bg-brand-600 text-white rounded-full">
+                <FileText size={18} />
+             </button>
              <button onClick={toggleTheme} className="p-2.5 bg-slate-100 dark:bg-white/5 rounded-full">
                 {isDark ? <Sun size={18} /> : <Moon size={18} />}
              </button>
@@ -102,7 +117,6 @@ export const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme }) =
         </div>
       </nav>
 
-      {/* Mobile Floating App Bar */}
       <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm">
         <div className="glass bg-white/90 dark:bg-deep-950/90 border border-slate-200 dark:border-white/10 rounded-[2rem] p-2 flex justify-between items-center shadow-2xl">
           {mobileNavItems.map((item, index) => {

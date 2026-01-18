@@ -1,3 +1,4 @@
+
 import { LucideIcon } from 'lucide-react';
 
 export interface Project {
@@ -6,8 +7,11 @@ export interface Project {
   category: string;
   description?: string; 
   link?: string;
-  tags?: string[]; // Tech stack tags
-  image?: string; // New image property
+  tags?: string[];
+  image?: string;
+  role?: string;
+  result?: string;
+  techStack?: string[];
 }
 
 export interface Skill {
@@ -16,13 +20,21 @@ export interface Skill {
   category: 'Tech' | 'Creative' | 'Platform';
 }
 
+export interface Tool {
+  name: string;
+  tag: string;
+  icon: string;
+  benefit: string;
+}
+
 export interface Stat {
-  value: string; // The number, e.g., "100"
-  suffix?: string; // The symbol, e.g., "%" or "+"
+  value: string;
+  suffix?: string;
   label: string;
 }
 
 export interface NavItem {
   label: string;
   href: string;
+  isAction?: boolean;
 }

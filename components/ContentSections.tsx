@@ -1,36 +1,36 @@
+
 import React from 'react';
 import { SectionWrapper } from './SectionWrapper';
-import { STATS, ABOUT_ME } from '../constants';
+import { STATS, ABOUT_ME, STRATEGIC_ABOUT } from '../constants';
 import { motion } from 'framer-motion';
-import { CheckCircle, Trophy, Users, Clock } from 'lucide-react';
+import { CheckCircle, Trophy, Users, Clock, ShieldCheck, Target, Zap } from 'lucide-react';
 
 const VALUE_PROPS = [
   {
     icon: Trophy,
     title: "Editorial Design",
-    desc: "I specialize in clean, high-impact aesthetics that make your product stand out from the noise."
+    desc: "Clean, high-impact aesthetics that ensure your brand stands out in a crowded digital landscape."
   },
   {
     icon: Clock,
     title: "Agile Engineering",
-    desc: "Lightning fast development cycles without compromising on quality or performance standards."
+    desc: "Rapid development cycles combined with industry-leading performance and security standards."
   },
   {
     icon: Users,
     title: "Strategic Partner",
-    desc: "I don't just build features; I build solutions that align with your long-term business roadmap."
+    desc: "I align technical decisions with your business goals to ensure long-term scalability and ROI."
   },
   {
     icon: CheckCircle,
-    title: "Transparent Flow",
-    desc: "Real-time updates and direct communication throughout the entire project lifecycle."
+    title: "Transparent Workflow",
+    desc: "Direct communication and real-time updates through every sprint of your project."
   }
 ];
 
 export const ContentSections: React.FC = () => {
   return (
     <>
-      {/* Stats Strip */}
       <SectionWrapper id="advantage" className="py-20 border-y border-slate-100 dark:border-slate-900">
          <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {STATS.map((stat, idx) => (
@@ -53,9 +53,8 @@ export const ContentSections: React.FC = () => {
          </div>
       </SectionWrapper>
 
-      {/* About Section */}
       <SectionWrapper className="py-24">
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
+        <div className="grid lg:grid-cols-12 gap-12 items-start mb-20">
           <div className="lg:col-span-5">
             <h2 className="text-brand-600 font-black uppercase tracking-[0.2em] text-xs mb-4">Profile Overview</h2>
             <h3 className="text-4xl md:text-6xl font-serif font-bold text-slate-950 dark:text-white leading-tight mb-6">
@@ -63,14 +62,38 @@ export const ContentSections: React.FC = () => {
             </h3>
           </div>
           <div className="lg:col-span-7">
-            <p className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+            <p className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 leading-relaxed font-medium mb-12">
               {ABOUT_ME}
             </p>
+            
+            {/* Added Strategic Clarity Block */}
+            <div className="grid md:grid-cols-3 gap-8 pt-10 border-t border-slate-100 dark:border-slate-800">
+              <div>
+                <div className="flex items-center space-x-2 text-brand-600 mb-3">
+                  <Target size={18} />
+                  <span className="text-[10px] font-black uppercase tracking-widest">Who I Help</span>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{STRATEGIC_ABOUT.whoIHelp}</p>
+              </div>
+              <div>
+                <div className="flex items-center space-x-2 text-brand-600 mb-3">
+                  <Zap size={18} />
+                  <span className="text-[10px] font-black uppercase tracking-widest">Problems Solved</span>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{STRATEGIC_ABOUT.problemsSolved}</p>
+              </div>
+              <div>
+                <div className="flex items-center space-x-2 text-brand-600 mb-3">
+                  <ShieldCheck size={18} />
+                  <span className="text-[10px] font-black uppercase tracking-widest">Why Trust Me</span>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{STRATEGIC_ABOUT.trustFactor}</p>
+              </div>
+            </div>
           </div>
         </div>
       </SectionWrapper>
 
-      {/* Value Grid */}
       <SectionWrapper className="py-24 pt-0">
         <div className="max-w-3xl mb-20">
           <h2 className="text-brand-600 font-black uppercase tracking-[0.2em] text-xs mb-4">The Advantage</h2>

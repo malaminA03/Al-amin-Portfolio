@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { USER_INFO, SOCIAL_LINKS, NAV_ITEMS } from '../constants';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, FileText } from 'lucide-react';
 
-export const Footer: React.FC = () => {
+export const Footer: React.FC<{ onViewCV: () => void }> = ({ onViewCV }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -17,7 +18,7 @@ export const Footer: React.FC = () => {
               {USER_INFO.name}<span className="text-brand-600">.</span>
             </h2>
             <p className="text-neutral-500 dark:text-neutral-400 max-w-sm mb-8">
-              Creating digital products that merge minimalist aesthetics with powerful engineering.
+              Creating high-performance digital products that merge minimalist aesthetics with powerful engineering strategies.
             </p>
             <div className="flex flex-wrap gap-3">
               {SOCIAL_LINKS.map((link) => {
@@ -43,9 +44,19 @@ export const Footer: React.FC = () => {
             <ul className="space-y-4">
               {NAV_ITEMS.map((item) => (
                 <li key={item.label}>
-                  <a href={item.href} className="text-neutral-500 dark:text-neutral-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
-                    {item.label}
-                  </a>
+                  {item.isAction ? (
+                    <button 
+                      onClick={onViewCV}
+                      className="flex items-center space-x-2 text-neutral-500 dark:text-neutral-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+                    >
+                      <FileText size={14} />
+                      <span>{item.label}</span>
+                    </button>
+                  ) : (
+                    <a href={item.href} className="text-neutral-500 dark:text-neutral-400 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                      {item.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -54,9 +65,10 @@ export const Footer: React.FC = () => {
           <div>
             <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-900 dark:text-white mb-6">Contact</h3>
             <ul className="space-y-4 text-neutral-500 dark:text-neutral-400">
-              <li>{USER_INFO.email}</li>
+              <li className="font-bold text-slate-900 dark:text-white">{USER_INFO.email}</li>
               <li>{USER_INFO.phone}</li>
               <li>Dhaka, Bangladesh</li>
+              <li className="pt-4 text-[10px] font-black uppercase tracking-widest">Available for Remote / Freelance</li>
             </ul>
           </div>
         </div>
