@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
-const MESSAGES = [
-  "Initializing Digital Ecosystem...",
-  "Architecting Interfaces...",
-  "Optimizing Performance...",
-  "Crafting Elegant Solutions...",
-  "Finalizing Experience..."
-];
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { USER_INFO } from '../constants';
 
 export const LoadingScreen: React.FC = () => {
   const [progress, setProgress] = useState(0);
-  const [messageIndex, setMessageIndex] = useState(0);
 
   useEffect(() => {
+    // 2 seconds total duration
+    const totalDuration = 2000;
+    const intervalTime = totalDuration / 100;
+
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -22,74 +19,93 @@ export const LoadingScreen: React.FC = () => {
         }
         return prev + 1;
       });
-    }, 35); // 100 * 35ms approx 3.5s + overhead
+    }, intervalTime);
 
-    const messageTimer = setInterval(() => {
-      setMessageIndex((prev) => (prev + 1) % MESSAGES.length);
-    }, 800);
-
-    return () => {
-      clearInterval(timer);
-      clearInterval(messageTimer);
-    };
+    return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[100] bg-deep-950 flex flex-col items-center justify-center overflow-hidden">
-      {/* Background Ambience */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-600/10 rounded-full blur-[120px] animate-pulse-slow"></div>
-      
-      <div className="relative z-10 w-full max-w-sm px-8">
-        {/* Name Logo */}
+    <div className="fixed inset-0 z-[100] bg-[#02040a] flex flex-col items-center justify-center overflow-hidden">
+      <div className="relative z-10 flex flex-col items-center">
+        
+        {/* User Image with Animated Border */}
+        <div className="relative mb-8">
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-white/5 relative z-10"
+          >
+            <img 
+              src={USER_INFO.image} 
+              alt={USER_INFO.name} 
+              className="w-full h-full object-cover grayscale"
+            />
+          </motion.div>
+
+          {/* Progress Circle Outline */}
+          <svg className="absolute -inset-4 w-[calc(100%+32px)] h-[calc(100%+32px)] -rotate-90">
+            <circle
+              cx="50%"
+              cy="50%"
+              r="48%"
+              stroke="currentColor"
+              strokeWidth="2"
+              fill="transparent"
+              className="text-white/5"
+            />
+            <motion.circle
+              cx="50%"
+              cy="50%"
+              r="48%"
+              stroke="currentColor"
+              strokeWidth="2"
+              fill="transparent"
+              strokeDasharray="100 100"
+              className="text-brand-600"
+              animate={{ strokeDashoffset: 100 - progress }}
+              transition={{ ease: "linear" }}
+            />
+          </svg>
+          
+          {/* Subtle Glow */}
+          <motion.div 
+            animate={{ opacity: [0.2, 0.5, 0.2] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute inset-0 bg-brand-600/20 blur-3xl rounded-full -z-10"
+          />
+        </div>
+
+        {/* Branding & Status */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center"
         >
-          <h1 className="text-4xl font-serif font-black text-white tracking-tighter">
+          <h1 className="text-2xl font-serif font-black text-white tracking-tighter mb-2">
             Al-amin<span className="text-brand-600">.</span>
           </h1>
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.4em] mt-2">
-            Digital Solutions Architect
-          </p>
+          <div className="flex items-center justify-center space-x-2">
+            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.3em]">Initializing Portfolio</span>
+            <span className="text-[10px] font-mono text-brand-500">{progress}%</span>
+          </div>
         </motion.div>
 
-        {/* Progress Container */}
-        <div className="relative h-[2px] w-full bg-white/5 rounded-full overflow-hidden mb-4">
+        {/* Minimal Progress Bar */}
+        <div className="w-48 h-[1px] bg-white/5 mt-8 rounded-full overflow-hidden">
           <motion.div 
-            className="absolute top-0 left-0 h-full bg-brand-600 shadow-[0_0_15px_rgba(124,58,237,0.5)]"
+            className="h-full bg-brand-600"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ ease: "linear" }}
           />
         </div>
-
-        {/* Status Text */}
-        <div className="flex justify-between items-end">
-          <div className="h-6 overflow-hidden">
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={messageIndex}
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                className="text-[10px] font-bold text-brand-400/80 uppercase tracking-widest"
-              >
-                {MESSAGES[messageIndex]}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-          <p className="text-[10px] font-mono text-slate-500">
-            {progress.toString().padStart(3, '0')}%
-          </p>
-        </div>
       </div>
 
-      {/* Aesthetic corner accents */}
-      <div className="absolute top-12 left-12 w-8 h-[1px] bg-white/10"></div>
-      <div className="absolute top-12 left-12 w-[1px] h-8 bg-white/10"></div>
-      <div className="absolute bottom-12 right-12 w-8 h-[1px] bg-white/10"></div>
-      <div className="absolute bottom-12 right-12 w-[1px] h-8 bg-white/10"></div>
+      {/* Background Ambience */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+           style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '30px 30px' }}>
+      </div>
     </div>
   );
 };

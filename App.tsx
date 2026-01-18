@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, useRef } from 'react';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { ContentSections } from './components/ContentSections';
@@ -10,14 +11,20 @@ import { Testimonials } from './components/Testimonials';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { LoadingScreen } from './components/LoadingScreen';
+import { MarqueeBanner } from './components/MarqueeBanner';
+import { HirePopup } from './components/HirePopup';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [isLoading, setIsLoading] = useState(true);
+  const [showHirePopup, setShowHirePopup] = useState(false);
+  const [isPermanentlyDismissed, setIsPermanentlyDismissed] = useState(false);
+  // Fix: Changed NodeJS.Timeout to ReturnType<typeof setInterval> for browser compatibility.
+  const popupTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    // Check local storage or system preference on mount
+    // Theme setup
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
@@ -27,16 +34,43 @@ function App() {
       setTheme('dark');
     }
 
-    // Set a 4-second loading timer
+    // Dismissal state
+    const dismissed = localStorage.getItem('hire_popup_dismissed') === 'true';
+    setIsPermanentlyDismissed(dismissed);
+
+    // Initial loading timer - Matches LoadingScreen's 2000ms
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, []);
 
+  // Popup logic
   useEffect(() => {
-    // Apply theme class to html element
+    if (isLoading || isPermanentlyDismissed) return;
+
+    const startPopupTimer = () => {
+      popupTimerRef.current = setInterval(() => {
+        if (!showHirePopup) {
+          setShowHirePopup(true);
+        }
+      }, 30000); // 30 seconds
+    };
+
+    // First appearance after 30s
+    const initialTimer = setTimeout(() => {
+      setShowHirePopup(true);
+      startPopupTimer();
+    }, 30000);
+
+    return () => {
+      clearTimeout(initialTimer);
+      if (popupTimerRef.current) clearInterval(popupTimerRef.current);
+    };
+  }, [isLoading, isPermanentlyDismissed, showHirePopup]);
+
+  useEffect(() => {
     const root = window.document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
@@ -48,6 +82,18 @@ function App() {
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  const handleTemporaryClose = () => {
+    setShowHirePopup(false);
+    // The interval in useEffect will trigger it again in 30s
+  };
+
+  const handlePermanentDismiss = () => {
+    setShowHirePopup(false);
+    setIsPermanentlyDismissed(true);
+    localStorage.setItem('hire_popup_dismissed', 'true');
+    if (popupTimerRef.current) clearInterval(popupTimerRef.current);
   };
 
   return (
@@ -66,7 +112,8 @@ function App() {
             
             <main>
               <Hero />
-              <ContentSections /> {/* About & The Advantage */}
+              <ContentSections />
+              <MarqueeBanner />
               <Expertise />
               <Services />
               <ProjectGrid />
@@ -74,6 +121,12 @@ function App() {
               <Testimonials />
               <ContactSection />
             </main>
+
+            <HirePopup 
+              isVisible={showHirePopup} 
+              onClose={handleTemporaryClose}
+              onCancel={handlePermanentDismiss}
+            />
 
             <Footer />
           </motion.div>
