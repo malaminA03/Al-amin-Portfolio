@@ -9,9 +9,12 @@ import { ProjectGrid } from './components/ProjectGrid';
 import { Testimonials } from './components/Testimonials';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { LoadingScreen } from './components/LoadingScreen';
+import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Check local storage or system preference on mount
@@ -23,6 +26,13 @@ function App() {
     } else if (systemPrefersDark) {
       setTheme('dark');
     }
+
+    // Set a 4-second loading timer
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -41,21 +51,34 @@ function App() {
   };
 
   return (
-    <div className="relative w-full overflow-hidden animated-bg transition-colors duration-500">
-      <Navigation isDark={theme === 'dark'} toggleTheme={toggleTheme} />
-      
-      <main>
-        <Hero />
-        <ContentSections /> {/* About & The Advantage */}
-        <Expertise />
-        <Services />
-        <ProjectGrid />
-        <Process />
-        <Testimonials />
-        <ContactSection />
-      </main>
+    <div className="relative w-full overflow-hidden animated-bg transition-colors duration-500 min-h-screen">
+      <AnimatePresence mode="wait">
+        {isLoading ? (
+          <LoadingScreen key="loader" />
+        ) : (
+          <motion.div
+            key="content"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
+            <Navigation isDark={theme === 'dark'} toggleTheme={toggleTheme} />
+            
+            <main>
+              <Hero />
+              <ContentSections /> {/* About & The Advantage */}
+              <Expertise />
+              <Services />
+              <ProjectGrid />
+              <Process />
+              <Testimonials />
+              <ContactSection />
+            </main>
 
-      <Footer />
+            <Footer />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

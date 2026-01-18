@@ -9,19 +9,39 @@ const TOOLS = [
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg' 
   },
   { 
-    name: 'Flutter', 
-    tag: 'TECH', 
-    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg' 
-  },
-  { 
     name: 'Node.js', 
     tag: 'TECH', 
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg' 
   },
   { 
+    name: 'JavaScript', 
+    tag: 'TECH', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg' 
+  },
+  { 
+    name: 'Python', 
+    tag: 'TECH', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg' 
+  },
+  { 
+    name: 'JAVA', 
+    tag: 'TECH', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg' 
+  },
+  { 
+    name: 'Flutter', 
+    tag: 'TECH', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg' 
+  },
+  { 
     name: 'HTML5', 
     tag: 'TECH', 
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg' 
+  },
+  { 
+    name: 'CSS3', 
+    tag: 'TECH', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg' 
   },
   { 
     name: 'Photoshop', 
@@ -39,9 +59,19 @@ const TOOLS = [
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/premierepro/premierepro-original.svg' 
   },
   { 
+    name: 'CapCut', 
+    tag: 'VIDEO', 
+    icon: 'https://www.freelogopng.com/images/all_img/1664284836cap-cut-logo-png.png' 
+  },
+  { 
     name: 'Facebook', 
-    tag: 'AD ADS', 
+    tag: 'ADS', 
     icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/facebook/facebook-original.svg' 
+  },
+  { 
+    name: 'MS Office', 
+    tag: 'OFFICE', 
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/6/65/Microsoft_Office_logo_%282013%E2%80%932019%29.png' 
   },
 ];
 
