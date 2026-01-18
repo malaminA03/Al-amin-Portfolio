@@ -31,7 +31,7 @@ const TOOLS = [
   { 
     name: 'Illustrator', 
     tag: 'DESIGN', 
-    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/illustrator/illustrator-line.svg' 
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg' 
   },
   { 
     name: 'Premiere Pro', 

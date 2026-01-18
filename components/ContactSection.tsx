@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { USER_INFO } from '../constants';
 import { Copy, Check, Send, Loader2 } from 'lucide-react';
@@ -202,7 +203,7 @@ export const ContactSection: React.FC = () => {
                                 name="name" 
                                 required
                                 className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all"
-                                placeholder="John Doe"
+                                placeholder="Type your name"
                             />
                         </div>
                         <div className="space-y-2">
@@ -213,20 +214,32 @@ export const ContactSection: React.FC = () => {
                                 name="email" 
                                 required
                                 className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all"
-                                placeholder="john@example.com"
+                                placeholder="Type your email"
                             />
                         </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label htmlFor="subject" className="text-sm font-medium text-slate-700 dark:text-slate-300">Subject</label>
-                        <input 
-                            type="text" 
-                            id="subject" 
-                            name="subject" 
-                            className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all"
-                            placeholder="Project Inquiry"
-                        />
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                            <label htmlFor="phone" className="text-sm font-medium text-slate-700 dark:text-slate-300">Phone</label>
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone" 
+                                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all"
+                                placeholder="Type your phone number"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label htmlFor="subject" className="text-sm font-medium text-slate-700 dark:text-slate-300">Subject</label>
+                            <input 
+                                type="text" 
+                                id="subject" 
+                                name="subject" 
+                                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all"
+                                placeholder="Type your subject"
+                            />
+                        </div>
                     </div>
 
                     <div className="space-y-2">
@@ -237,7 +250,7 @@ export const ContactSection: React.FC = () => {
                             required
                             rows={4}
                             className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all resize-y min-h-[120px]"
-                            placeholder="Tell me about your project..."
+                            placeholder="Type your message..."
                         />
                     </div>
 
