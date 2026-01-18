@@ -61,14 +61,19 @@ export const ProjectGrid: React.FC = () => {
                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-600 dark:text-brand-400 mb-2 block">
                     {project.category}
                  </span>
-                 <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight">
+                 <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight mb-4">
                    {project.title}
                  </h3>
+                 {project.description && (
+                   <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                     {project.description}
+                   </p>
+                 )}
                </div>
                
-               <div className="flex flex-wrap gap-2 mb-8 mt-auto">
-                  {project.tags?.slice(0, 3).map((tag, tIdx) => (
-                      <span key={tIdx} className="px-3 py-1 bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-slate-100 dark:border-slate-800">
+               <div className="flex flex-wrap gap-2 mt-auto">
+                  {project.tags?.slice(0, 4).map((tag, tIdx) => (
+                      <span key={tIdx} className="px-3 py-1 bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-[9px] font-bold uppercase tracking-wider rounded-lg border border-slate-100 dark:border-slate-800">
                           {tag}
                       </span>
                   ))}

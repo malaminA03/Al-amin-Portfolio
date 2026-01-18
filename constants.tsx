@@ -6,42 +6,41 @@ import {
   Palette, 
   Layers,
   Zap,
-  Search,
-  PenTool,
-  Globe,
+  BarChart,
   Github,
   Linkedin,
   Facebook,
   Twitter,
-  Database,
-  BarChart,
   Instagram,
   Youtube,
-  Music2, // TikTok fallback
-  AtSign, // Threads fallback
-  Pin     // Pinterest fallback
+  Music2,
+  Cpu,
+  Terminal,
+  Settings
 } from 'lucide-react';
-import { Project, Skill, Stat, NavItem } from './types';
+import { Project, Stat, NavItem } from './types';
 
 export const USER_INFO = {
   name: "Muhammad Al-amin",
+  firstName: "Muhammad",
+  lastName: "Al-amin",
   role: "Digital Solutions Architect",
   email: "mdalaminkhalifa2002@gmail.com",
-  phone: "01778189644",
+  phone: "+8801778189644",
   tagline: "Transforming Complex Problems into Elegant Digital Solutions.",
   image: "https://i.ibb.co.com/4ZtpFT0b/IMG.png" 
 };
+
+export const ABOUT_ME = `I am a multi-disciplinary developer and strategist who bridges the gap between high-performance engineering and human-centric design. With over 3 years of craftsmanship, I specialize in building scalable MERN stack ecosystems, intelligent automation tools, and professional creative assets. Whether it's architecting complex software automation scripts in Python or crafting high-impact UI/UX systems, my focus is always on delivering strategic value through technical precision. From system administration in Kali Linux to business optimization using Google AppSheet, I provide full-spectrum digital solutions for modern enterprises.`;
 
 export const SOCIAL_LINKS = [
   { name: 'GitHub', url: 'https://github.com/malaminA03', icon: Github },
   { name: 'LinkedIn', url: 'https://www.linkedin.com/in/mdalamins20/', icon: Linkedin },
   { name: 'Facebook', url: 'https://www.facebook.com/mdalamins20', icon: Facebook },
-  { name: 'X (Twitter)', url: 'https://x.com/mdalamins20', icon: Twitter },
+  { name: 'X', url: 'https://x.com/mdalamins20', icon: Twitter },
   { name: 'Instagram', url: 'https://www.instagram.com/mdalamins20/', icon: Instagram },
   { name: 'TikTok', url: 'https://www.tiktok.com/@mdalamins200', icon: Music2 },
-  { name: 'Threads', url: 'https://www.threads.com/@mdalamins20', icon: AtSign },
   { name: 'YouTube', url: 'https://www.youtube.com/@MdalaminS20', icon: Youtube },
-  { name: 'Pinterest', url: 'https://www.pinterest.com/mdalamins20/', icon: Pin },
 ];
 
 export const NAV_ITEMS: NavItem[] = [
@@ -54,155 +53,117 @@ export const NAV_ITEMS: NavItem[] = [
 
 export const SERVICES = [
   {
-    title: "Web Architecture",
-    description: "Scalable, high-performance web applications built on modern stacks (React, Node, Next.js). Focused on speed and SEO.",
-    icon: Globe
-  },
-  {
-    title: "Mobile Ecosystems",
-    description: "Cross-platform Flutter applications that deliver native performance on iOS and Android with a single codebase.",
-    icon: Smartphone
-  },
-  {
-    title: "UI/UX Strategy",
-    description: "User-centric design systems that convert visitors into customers through intuitive interfaces and psychology-driven layouts.",
-    icon: PenTool
-  },
-  {
-    title: "Digital Growth",
-    description: "Data-driven strategies to optimize brand identity, manage platforms, and increase engagement metrics.",
-    icon: BarChart
-  }
-];
-
-export const PROCESS = [
-  {
-    step: "01",
-    title: "Discovery",
-    description: "Deep dive into business goals, audience psychology, and technical requirements.",
-    icon: Search
-  },
-  {
-    step: "02",
-    title: "Architecture",
-    description: "Designing the blueprint. Wireframes, system architecture, and tech stack selection.",
-    icon: Palette
-  },
-  {
-    step: "03",
-    title: "Development",
-    description: "Writing clean, modular code with a focus on security, performance, and scalability.",
+    title: "Web & App Dev",
+    description: "Architecting high-performance MERN stack ecosystems and native-feeling Flutter applications.",
     icon: Code2
   },
   {
-    step: "04",
-    title: "Deployment",
-    description: "Launch strategies, analytics integration, and post-launch optimization.",
-    icon: Layers
-  }
-];
-
-export const TESTIMONIALS = [
-  {
-    name: "John Doe",
-    role: "CEO, TechStart",
-    content: "Al-amin transformed our clunky prototype into a sleek, high-performing product. His attention to detail in the UI is unmatched."
+    title: "Automation & AI",
+    description: "Building intelligent Python-based automation and AI-integrated tools to optimize your workflow.",
+    icon: Zap
   },
   {
-    name: "Sarah Smith",
-    role: "Director, CreativeFlow",
-    content: "Professional, communicative, and technically brilliant. He understood our brand voice immediately. Highly recommended."
+    title: "Creative Design",
+    description: "Designing professional UI/UX systems, high-impact graphics, and cinematic video edits.",
+    icon: Palette
+  },
+  {
+    title: "Systems & Strategy",
+    description: "Enterprise-level Kali Linux administration, hardware solutions, and digital growth strategies.",
+    icon: Settings
   }
-];
-
-export const SKILLS: Skill[] = [
-  { name: 'React.js', icon: Code2, category: 'Tech' },
-  { name: 'Flutter', icon: Smartphone, category: 'Tech' },
-  { name: 'Node.js', icon: Server, category: 'Tech' },
-  { name: 'System Arch', icon: Database, category: 'Tech' },
-  { name: 'UI Design', icon: Layout, category: 'Creative' },
-  { name: 'Adobe Suite', icon: Palette, category: 'Creative' },
-  { name: 'Strategy', icon: Zap, category: 'Platform' },
 ];
 
 export const PROJECTS: Project[] = [
   { 
     id: '1', 
-    title: 'Jarvis Assistant', 
-    category: 'AI & ML', 
-    link: "", 
-    tags: ['Python', 'OpenAI', 'React'],
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
+    title: 'Mess Manager', 
+    category: 'Web Ecosystem', 
+    description: 'A comprehensive MERN stack application designed to digitize dining logistics. Features include real-time inventory management and automated budget tracking.',
+    tags: ['React', 'Node.js', 'MongoDB', 'Express'],
+    image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800"
   },
   { 
     id: '2', 
-    title: 'Auto Branding AI', 
-    category: 'Automation', 
-    link: "", 
-    tags: ['Node.js', 'Puppeteer', 'AWS'],
-    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=800"
+    title: 'ChronoFlow', 
+    category: 'AI Integration', 
+    description: 'An intelligent desktop application utilizing AI to analyze daily activity logs and provide data-driven productivity insights for professionals.',
+    tags: ['Python', 'AI/ML', 'PyQt', 'Automation'],
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&q=80&w=800"
   },
   { 
     id: '3', 
     title: 'Smart Wallet', 
     category: 'FinTech', 
-    link: "", 
-    tags: ['Flutter', 'Firebase', 'Stripe'],
+    description: 'A sleek financial tracking platform focused on personal expense management and visual data analytics through a minimalist user interface.',
+    tags: ['Next.js', 'Tailwind', 'Firebase'],
     image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=800"
   },
   { 
     id: '4', 
-    title: 'Social Connect', 
-    category: 'Social Media', 
-    link: "", 
-    tags: ['React', 'Redux', 'Socket.io'],
+    title: 'Social Automation', 
+    category: 'Automation', 
+    description: 'A custom tool for multi-platform content synchronization. Post simultaneously to LinkedIn, X, Instagram, and Facebook with advanced scheduling.',
+    tags: ['Python', 'Selenium', 'API Integration'],
     image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800"
   },
   { 
     id: '5', 
-    title: 'Amar Barishal', 
-    category: 'App & UI', 
-    link: "", 
-    tags: ['Flutter', 'Google Maps API'],
-    image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800"
+    title: 'Payroll Solution', 
+    category: 'Business Systems', 
+    description: 'An enterprise-grade payroll system bridging Google Sheets and AppSheet. Streamlines attendance, tax reporting, and employee compensation.',
+    tags: ['Google AppSheet', 'Apps Script'],
+    image: "https://images.unsplash.com/photo-1454165833767-02a698d5874c?auto=format&fit=crop&q=80&w=800"
   },
   { 
     id: '6', 
-    title: 'ChronoFlow', 
-    category: 'Productivity', 
-    link: "", 
-    tags: ['TypeScript', 'Next.js'],
-    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&q=80&w=800"
-  },
-  { 
-    id: '7', 
-    title: 'Mess Manager', 
-    category: 'Management', 
-    link: "", 
-    tags: ['React', 'PostgreSQL'],
-    image: "https://images.unsplash.com/photo-1554774853-719586f8c277?auto=format&fit=crop&q=80&w=800"
-  },
-  { 
-    id: '8', 
-    title: 'PixelHunter', 
-    category: 'Game Dev', 
-    link: "", 
-    tags: ['Unity', 'C#'],
-    image: "https://images.unsplash.com/photo-1556438050-bf8869af7860?auto=format&fit=crop&q=80&w=800"
-  },
-  { 
-    id: '9', 
-    title: 'FocusLogger', 
-    category: 'Wellness', 
-    link: "", 
-    tags: ['Vue.js', 'Tailwind'],
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=800"
-  },
+    title: 'Desktop Monitor', 
+    category: 'System Utility', 
+    description: 'A Python-based utility for hardware-level monitoring. Provides real-time visibility into CPU/GPU thermals and system resource utilization.',
+    tags: ['Python', 'System Ops'],
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800"
+  }
 ];
 
 export const STATS: Stat[] = [
-  { value: "3", suffix: "+", label: "Years Experience" },
-  { value: "100", suffix: "%", label: "Job Success" },
-  { value: "15", suffix: "+", label: "Projects Delivered" }, 
-  { value: "17", suffix: "+", label: "Enterprise Clients" }, 
+  { value: "3", suffix: "+", label: "Years Exp." },
+  { value: "25", suffix: "+", label: "Solutions Built" },
+  { value: "100", suffix: "%", label: "Client Privacy" }, 
+  { value: "24", suffix: "/7", label: "Strategic Support" }, 
+];
+
+export const PROCESS = [
+  {
+    step: "01",
+    title: "Strategic Discovery",
+    description: "Analyzing your business bottlenecks to define a technical roadmap that actually moves the needle."
+  },
+  {
+    step: "02",
+    title: "Interface Architecture",
+    description: "Crafting professional UI/UX frameworks that balance brand aesthetics with functional precision."
+  },
+  {
+    step: "03",
+    title: "Engineering Sprint",
+    description: "Developing robust, scalable codebases using the MERN stack or automation scripts in Python."
+  },
+  {
+    step: "04",
+    title: "System Deployment",
+    description: "Rigorous testing and environment optimization followed by a seamless launch and scaling plan."
+  }
+];
+
+export const TESTIMONIALS = [
+  {
+    name: "Dewan Furniture",
+    role: "Brand Client",
+    content: "Muhammad delivered high-impact visual designs that transformed our online presence. His attention to detail is remarkable."
+  },
+  {
+    name: "TechInnovate",
+    role: "System Admin Client",
+    content: "The custom automation tools developed saved us hundreds of hours in manual data entry. A true strategic partner."
+  }
 ];

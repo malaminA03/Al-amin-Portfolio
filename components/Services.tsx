@@ -5,20 +5,20 @@ import { motion } from 'framer-motion';
 
 export const Services: React.FC = () => {
   return (
-    <SectionWrapper id="services" className="py-20 relative">
-      {/* Decorative Blur Background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-brand-900/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+    <SectionWrapper id="services" className="py-24 relative overflow-hidden">
+      {/* Dynamic Background Circle */}
+      <div className="absolute -top-24 -right-24 w-96 h-96 bg-brand-500/5 rounded-full blur-[100px] -z-10"></div>
 
-      <div className="mb-16 md:text-center">
-        <h2 className="text-brand-600 dark:text-brand-400 font-bold uppercase tracking-widest text-sm mb-3">
-          Services
+      <div className="mb-20 text-center md:text-left">
+        <h2 className="text-brand-600 font-bold uppercase tracking-[0.25em] text-xs mb-3">
+          Capabilities
         </h2>
-        <h3 className="text-3xl md:text-5xl font-serif font-bold text-slate-900 dark:text-white">
-          High-End Digital Capabilities
+        <h3 className="text-4xl md:text-7xl font-serif font-bold text-slate-950 dark:text-white">
+          Full-Stack Precision.
         </h3>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 gap-8">
         {SERVICES.map((service, index) => {
           const Icon = service.icon;
           return (
@@ -28,21 +28,21 @@ export const Services: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="glass-card p-10 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:border-brand-500/50 hover:shadow-2xl hover:shadow-brand-900/10 group"
+              className="relative p-10 rounded-[2.5rem] bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-brand-500/30 transition-all duration-500 group shadow-sm hover:shadow-2xl hover:-translate-y-2"
             >
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-14 h-14 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center group-hover:bg-brand-600 transition-colors duration-300">
-                  <Icon className="w-7 h-7 text-slate-900 dark:text-white group-hover:text-white transition-colors" />
+              <div className="flex items-start justify-between mb-8">
+                <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-all duration-500 shadow-sm">
+                  <Icon className="w-8 h-8" />
                 </div>
-                <span className="text-5xl font-serif text-slate-200 dark:text-slate-800 opacity-50 group-hover:text-brand-100/10 transition-colors">
+                <span className="text-6xl font-serif font-black text-slate-100 dark:text-slate-800 transition-colors group-hover:text-brand-600/10">
                   0{index + 1}
                 </span>
               </div>
               
-              <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-brand-500 transition-colors">
+              <h4 className="text-2xl font-bold text-slate-950 dark:text-white mb-4">
                 {service.title}
               </h4>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 leading-relaxed text-lg font-medium">
                 {service.description}
               </p>
             </motion.div>

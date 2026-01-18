@@ -10,12 +10,12 @@ interface SectionWrapperProps {
 
 export const SectionWrapper: React.FC<SectionWrapperProps> = ({ children, id, className = "", delay = 0 }) => {
   return (
-    <section id={id} className={`py-16 md:py-32 px-4 md:px-12 max-w-7xl mx-auto ${className}`}>
+    <section id={id} className={`py-20 md:py-32 px-6 lg:px-12 max-w-7xl mx-auto ${className}`}>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "0px" }} // Removed negative margin to prevent white screen
-        transition={{ duration: 0.6, ease: "easeOut", delay }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, ease: "easeOut", delay }}
       >
         {children}
       </motion.div>
