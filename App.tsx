@@ -10,33 +10,55 @@ import { ProjectGrid } from './components/ProjectGrid';
 import { Testimonials } from './components/Testimonials';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { LoadingScreen } from './components/LoadingScreen';
+import { HirePopup } from './components/HirePopup';
 import { AnimatePresence } from 'framer-motion';
 
 function AppContent() {
-  const [isLoading, setIsLoading] = useState(true);
   const [showCV, setShowCV] = useState(false);
+  const [isHirePopupVisible, setIsHirePopupVisible] = useState(false);
+  const [isPermanentlyDismissed, setIsPermanentlyDismissed] = useState(() => {
+    return localStorage.getItem('hire-popup-dismissed') === 'true';
+  });
 
   useEffect(() => {
-    setTimeout(() => setIsLoading(false), 2000);
-  }, []);
+    // Only start timer if not permanently dismissed
+    if (!isPermanentlyDismissed) {
+      const timer = setTimeout(() => {
+        setIsHirePopupVisible(true);
+      }, 30000); // 30 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [isPermanentlyDismissed]);
+
+  const handleClosePopup = () => {
+    setIsHirePopupVisible(false);
+  };
+
+  const handlePermanentDismiss = () => {
+    setIsHirePopupVisible(false);
+    setIsPermanentlyDismissed(true);
+    localStorage.setItem('hire-popup-dismissed', 'true');
+  };
 
   return (
     <AnimatePresence mode="wait">
-      {isLoading ? (
-        <LoadingScreen key="loader" />
-      ) : (
-        <Layout key="content" onViewCV={() => setShowCV(true)}>
-          <Hero />
-          <ContentSections />
-          <Expertise />
-          <Services />
-          <ProjectGrid />
-          <Testimonials />
-          <ContactSection />
-          <Footer onViewCV={() => setShowCV(true)} />
-        </Layout>
-      )}
+      <Layout key="content" onViewCV={() => setShowCV(true)}>
+        <Hero />
+        <ContentSections />
+        <Expertise />
+        <Services />
+        <ProjectGrid />
+        <Testimonials />
+        <ContactSection />
+        <Footer onViewCV={() => setShowCV(true)} />
+        
+        <HirePopup 
+          isVisible={isHirePopupVisible} 
+          onClose={handleClosePopup}
+          onCancel={handlePermanentDismiss}
+        />
+      </Layout>
     </AnimatePresence>
   );
 }

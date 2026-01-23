@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" data-language="en" data-mode="light">
+<html lang="en" class="scroll-smooth" data-applied-lang="en" data-mode="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,15 +52,14 @@
         transition: background-color 0.3s ease, color 0.3s ease;
       }
 
-      /* TYPOGRAPHY MATRIX - Dynamic font swapping based on language */
-      html[data-applied-lang='bn'] { --font-main: 'Noto Sans Bengali'; }
-      html[data-applied-lang='ar'], html[data-applied-lang='ur'] { --font-main: 'Noto Naskh Arabic'; }
-      html[data-applied-lang='hi'] { --font-main: 'Noto Sans Devanagari'; }
-      html[data-applied-lang='ja'] { --font-main: 'Noto Sans JP'; }
-      html[data-applied-lang='ko'] { --font-main: 'Noto Sans KR'; }
-      html[data-applied-lang='zh-CN'] { --font-main: 'Noto Sans SC'; }
+      /* TYPOGRAPHY MATRIX - Forces correct fonts for different languages */
+      html[data-applied-lang='bn'] { --font-main: 'Noto Sans Bengali', sans-serif !important; }
+      html[data-applied-lang='ar'], html[data-applied-lang='ur'] { --font-main: 'Noto Naskh Arabic', serif !important; }
+      html[data-applied-lang='hi'] { --font-main: 'Noto Sans Devanagari', sans-serif !important; }
+      html[data-applied-lang='ja'] { --font-main: 'Noto Sans JP', sans-serif !important; }
+      html[data-applied-lang='ko'] { --font-main: 'Noto Sans KR', sans-serif !important; }
+      html[data-applied-lang='zh-CN'] { --font-main: 'Noto Sans SC', sans-serif !important; }
 
-      /* Color Modes */
       [data-mode='light'] {
         --bg-primary: #ffffff; 
         --bg-secondary: #f8fafc;
@@ -76,14 +75,43 @@
         --border-color: #1e293b;
       }
 
-      /* HIDE GOOGLE TRANSLATE UI ELEMENTS */
-      .goog-te-banner-frame.skiptranslate { display: none !important; }
-      body { top: 0px !important; }
-      #google_translate_element { display: none !important; }
-      .goog-te-gadget { display: none !important; }
-      .goog-tooltip { display: none !important; }
-      .goog-tooltip:hover { display: none !important; }
-      .goog-text-highlight { background-color: transparent !important; border: none !important; box-shadow: none !important; }
+      /* AGGRESSIVE HIDE GOOGLE TRANSLATE UI ELEMENTS */
+      iframe.goog-te-banner-frame,
+      .goog-te-banner-frame,
+      .goog-te-banner,
+      .skiptranslate,
+      #goog-gt-tt,
+      #goog-gt-tt *,
+      .goog-te-balloon-frame,
+      .goog-te-gadget-icon,
+      .goog-tooltip,
+      .goog-tooltip:hover,
+      .VIpgJd-y66S6b-ti6h9c-va74A {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+        pointer-events: none !important;
+      }
+      
+      body {
+        top: 0px !important;
+        position: static !important;
+      }
+
+      #google_translate_element {
+        display: none !important;
+        position: absolute;
+        top: -9999px;
+      }
+
+      /* Disable text highlighting that Google Translate adds */
+      .goog-text-highlight {
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
 
       body {
         background-color: var(--bg-primary);
@@ -93,25 +121,31 @@
 
       .section-container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
       svg { stroke: currentColor; fill: none; }
-      
-      .brand-bg { background-color: var(--accent); }
-      .brand-text { color: var(--accent); }
-      .brand-border { border-color: var(--accent); }
-      
-      ::-webkit-scrollbar { width: 6px; }
-      ::-webkit-scrollbar-track { background: var(--bg-primary); }
-      ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
     </style>
     
-    <!-- GOOGLE TRANSLATE CORE -->
     <script type="text/javascript">
       function googleTranslateElementInit() {
         new google.translate.TranslateElement({
           pageLanguage: 'en',
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
           autoDisplay: false
         }, 'google_translate_element');
       }
+
+      // Continuous cleanup to ensure UI stays clean and bars/tooltips are nuked
+      setInterval(function() {
+        var banner = document.querySelector('.goog-te-banner-frame');
+        if (banner) banner.remove();
+        
+        var tooltip = document.getElementById('goog-gt-tt');
+        if (tooltip) tooltip.remove();
+
+        var tooltips2 = document.querySelectorAll('.VIpgJd-y66S6b-ti6h9c-va74A');
+        tooltips2.forEach(function(el) { el.remove(); });
+
+        if (document.body.style.top !== '0px') {
+          document.body.style.top = '0px';
+        }
+      }, 300);
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
@@ -128,7 +162,6 @@
     </script>
   </head>
   <body>
-    <!-- Hidden element required by Google Translate -->
     <div id="google_translate_element"></div>
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
